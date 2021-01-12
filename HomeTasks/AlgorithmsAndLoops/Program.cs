@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace AlgorithmsAndLoops
 {
@@ -9,6 +10,8 @@ namespace AlgorithmsAndLoops
             int testIntNumber1 = 12345, testIntNumber2 = 192837465;
             double testDoubleNumber = 2.543;
             string testStr = "Hell0, Wo21d!";
+            string testZipPath = "test.zip";
+
             Console.Write("1. Separate digits of number {0} : ", testIntNumber1);
             TaskUtilities.PrintSeparateDigits(testIntNumber1);
             
@@ -46,22 +49,77 @@ namespace AlgorithmsAndLoops
             Console.WriteLine(decodedBase64);
             
             Console.WriteLine("\n10. Make bubble sort on 39 elements array: ");
-            var array = TaskUtilities.GenerateArray(39);
+            var array = TaskUtilities.GenerateArray(39, 0, 1000);
             Console.WriteLine("Initial: ");
+            
             foreach (var item in array)
             {
                 Console.Write("{0} ", item);
             }
-            Console.WriteLine();
+            
             TaskUtilities.BubbleSort(array);
-            Console.WriteLine("Sorted: ");
+            
+            Console.WriteLine("\n\nSorted: ");
+            
             foreach (var item in array)
             {
                 Console.Write("{0} ", item);
             }
 
+            var tree = TreeNode<int>.GetDefaultTree();
+            
+            Console.WriteLine("\n\n11. DFS: ");
+            
+            foreach (var item in tree.DepthFirstTraversal())
+            {
+                Console.WriteLine(item.Data);
+            }
+            
+            Console.WriteLine("\nBFT: ");
+            
+            foreach (var item in tree.BreadthFirstTraversal())
+            {
+                Console.WriteLine(item.Data);
+            }
 
+            Console.WriteLine("\n12. Compressing/Decompressing array: ");
+            Console.Write("Initial array: ");
+            array = TaskUtilities.GenerateArray(50, 0, 100);
+            
+            foreach (var item in array)
+            {
+                Console.Write("{0} ", item);
+            }
 
+            TaskUtilities.CompressArray(testZipPath, array);
+            var compressedArray = File.ReadAllText(testZipPath);
+            Console.WriteLine("\n\nCompressed array: " + compressedArray);
+            Console.Write("\nDecompressed array: ");
+            var decompressedArray = TaskUtilities.DecompressArray(testZipPath);
+            
+            foreach (var item in decompressedArray)
+            {
+                Console.Write("{0} ", item);
+            }
+
+            Console.WriteLine("\n\n13. Make quick sort on 39 elements array: ");
+            array = TaskUtilities.GenerateArray(39, 0, 1000);
+            Console.WriteLine("Initial: ");
+            
+            foreach (var item in array)
+            {
+                Console.Write("{0} ", item);
+            }
+            
+            TaskUtilities.QuickSort(array);
+            Console.WriteLine("\n\nSorted: ");
+            
+            foreach (var item in array)
+            {
+                Console.Write("{0} ", item);
+            }
+
+            Console.WriteLine();
         }
     }
 }
