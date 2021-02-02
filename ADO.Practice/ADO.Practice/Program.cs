@@ -29,18 +29,16 @@ namespace ADO.Practice
 
             var query1Result = helper.GetQuery1();
             Console.WriteLine("1. Вывести Ид, ФИО сотрудников, которые живут в городе London");
-            foreach(var row in query1Result)
+            Console.WriteLine("{0,10}{1,20}{2,20}", "Id", "First Name", "Last Name");
+            foreach (var employee in query1Result)
             {
-                Console.WriteLine(row);
+                Console.WriteLine("{0,10}{1,20}{2,20}", employee.Id, employee.FirstName, employee.LastName);
             }
             Console.WriteLine("----------------------------------------");
 
             var query2Result = helper.GetQuery2();
             Console.WriteLine("2. Найти количество покупателей, которых обслужил сотрудник, который имеет наибольшее кол-во заказов");
-            foreach (var row in query2Result)
-            {
-                Console.WriteLine(row);
-            }
+            Console.WriteLine(query2Result);
             Console.WriteLine("----------------------------------------");
 
             var query3Result = helper.GetQuery3();
@@ -53,10 +51,7 @@ namespace ADO.Practice
 
             var query4Result = helper.GetQuery4();
             Console.WriteLine("4. Найти самый дорогой товар из категории \"Морепродукти\" (Seafood)");
-            foreach (var row in query4Result)
-            {
-                Console.WriteLine(row);
-            }
+            Console.WriteLine(query4Result);
             Console.WriteLine("----------------------------------------");
 
             var query5Result = helper.GetQuery5();

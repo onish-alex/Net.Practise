@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Configuration;
+using ADO.Practice.Entities;
 
 namespace ADO.Practice
 {
@@ -11,7 +12,7 @@ namespace ADO.Practice
 
         private static string query1 = @"SELECT EmployeeID, FirstName, LastName FROM Northwind.dbo.Employees WHERE City = 'London'";
 
-        private static string query2 = @"SELECT TOP(1) EmployeeID, Count(Distinct CustomerId) as Customers_Count  
+        private static string query2 = @"SELECT TOP(1) Count(Distinct CustomerId) as Customers_Count  
                                          FROM Northwind.dbo.Orders ords
                                          GROUP BY EmployeeID
                                          ORDER BY Count(OrderID) desc";
@@ -20,7 +21,7 @@ namespace ADO.Practice
                                          GROUP BY ords.ShipCity, ords.ShipCountry
                                          HAVING Count(*) > 2";
 
-        private static string query4 = @"SELECT TOP(1) ProductName, UnitPrice
+        private static string query4 = @"SELECT TOP(1) ProductName
                                          FROM Northwind.dbo.Products pr JOIN Northwind.dbo.Categories cts ON pr.CategoryID = cts.CategoryID
                                          WHERE cts.CategoryName = 'Seafood'
                                          ORDER BY UnitPrice desc";
@@ -48,9 +49,9 @@ namespace ADO.Practice
         private static string deleteSubjectQuery = @"DELETE FROM Northwind.dbo.Rooms WHERE Id = @id";
         private static string deleteLessonQuery = @"DELETE FROM Northwind.dbo.Subjects WHERE Id = @id";
 
-        public IEnumerable<string> GetQuery1()
+        public IEnumerable<Employee> GetQuery1()
         {
-            var list = new List<string>();
+            var list = new List<Employee>();
             using (var connection = new SqlConnection(connectionStr))
             {
                 connection.Open();
@@ -59,39 +60,30 @@ namespace ADO.Practice
 
                 if (reader.HasRows)
                 {
-                    list.Add(string.Format("{0,20}{1,20}{2,20}", reader.GetName(0), reader.GetName(1), reader.GetName(2)));
-                    list.Add(string.Empty);
-
                     while (reader.Read())
                     {
-                        list.Add(string.Format("{0,20}{1,20}{2,20}", reader.GetInt32(0), reader.GetString(1), reader.GetString(2)));
+                        list.Add(new Employee()
+                        {
+                            Id = reader.GetInt32(0),
+                            FirstName = reader.GetString(1),
+                            LastName = reader.GetString(2)
+                        });
                     }
                 }
             }
             return list;
         }
 
-        public IEnumerable<string> GetQuery2()
+        public int GetQuery2()
         {
-            var list = new List<string>();
+            int result;
             using (var connection = new SqlConnection(connectionStr))
             {
                 connection.Open();
                 var command = new SqlCommand(query2, connection);
-                var reader = command.ExecuteReader();
-
-                if (reader.HasRows)
-                {
-                    list.Add(string.Format("{0,20}{1,20}", reader.GetName(0), reader.GetName(1)));
-                    list.Add(string.Empty);
-
-                    while (reader.Read())
-                    {
-                        list.Add(string.Format("{0,20}{1,20}", reader.GetInt32(0), reader.GetInt32(1)));
-                    }
-                }
+                result = (int)command.ExecuteScalar();
             }
-            return list;
+            return result;
         }
 
         public IEnumerable<string> GetQuery3()
@@ -117,27 +109,16 @@ namespace ADO.Practice
             return list;
         }
 
-        public IEnumerable<string> GetQuery4()
+        public string GetQuery4()
         {
-            var list = new List<string>();
+            var result = string.Empty;
             using (var connection = new SqlConnection(connectionStr))
             {
                 connection.Open();
                 var command = new SqlCommand(query4, connection);
-                var reader = command.ExecuteReader();
-
-                if (reader.HasRows)
-                {
-                    list.Add(string.Format("{0,20}{1,20}", reader.GetName(0), reader.GetName(1)));
-                    list.Add(string.Empty);
-
-                    while (reader.Read())
-                    {
-                        list.Add(string.Format("{0,20}{1,20}", reader.GetString(0), reader.GetDecimal(1)));
-                    }
-                }
+                result = command.ExecuteScalar() as string;
             }
-            return list;
+            return result;
         }
 
         public IEnumerable<string> GetQuery5()
