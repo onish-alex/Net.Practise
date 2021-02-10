@@ -124,7 +124,7 @@
             var email = Console.ReadLine();
             Console.Write("Enter alias:");
             var alias = Console.ReadLine();
-            Console.WriteLine("Run anonimizer...");
+            Console.WriteLine("Run personal data cleaner...");
             var cleaner = new PersonalDataCleaner(email, alias);
             cleaner.RunAsync();
         }

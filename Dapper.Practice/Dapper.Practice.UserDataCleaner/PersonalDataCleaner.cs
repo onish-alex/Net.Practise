@@ -21,7 +21,7 @@
         {
             await this.ReplaceUserData();
             await this.ReplaceMailData();
-            System.Console.WriteLine("Removed!");
+            System.Console.WriteLine("Done!");
         }
 
         private async Task ReplaceUserData()
