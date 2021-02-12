@@ -6,6 +6,7 @@ namespace EducationPortal.DAL.Repository
 {
     using System;
     using System.Collections.Generic;
+    using System.Configuration;
     using System.Data.SqlClient;
     using System.Linq.Expressions;
     using EducationPortal.DAL.Entities;
@@ -19,13 +20,7 @@ namespace EducationPortal.DAL.Repository
 
         public ADORepository()
         {
-            var builder = new SqlConnectionStringBuilder
-            {
-                InitialCatalog = "EducationPortal",
-                DataSource = @".\SQLEXPRESS",
-                IntegratedSecurity = true,
-            };
-            this.connectionString = builder.ConnectionString;
+            this.connectionString = ConfigurationManager.ConnectionStrings["EducationPortal"].ConnectionString;
 
             this.queryHelper = QueryHelper.GetInstance();
         }
