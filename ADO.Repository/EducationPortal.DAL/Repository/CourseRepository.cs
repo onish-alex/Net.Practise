@@ -14,20 +14,21 @@ namespace EducationPortal.DAL.Repository
     {
         private string selectCourseCreator = "SELECT Id, [Name], [Login], Email, Password FROM Users WHERE Id = @Id";
 
-        private string selectCourseMaterialIds = @"SELECT m.Id, m.Name, m.Url, 
-                                                          a.PublicationDate, 
-                                                          b.AuthorNames, b.PageCount, b.Format, b.PublishingYear, 
-                                                          v.Duration, v.Quality 
-                                                    FROM Materials m 
-                                                         LEFT JOIN Books b ON m.Id = b.Id 
-                                                         LEFT JOIN Articles a ON a.Id = m.Id 
-                                                         LEFT JOIN Videos v ON v.Id = m.Id
-                                                         JOIN CourseMaterials_MtM cm ON m.Id = cm.MaterialId
-                                                    WHERE cm.CourseId = @Id";
+        private string selectCourseMaterialIds = @"SELECT  m.Id, a.Id, b.Id, v.Id, 
+		                                                    m.Name, m.Url, 
+                                                            a.PublicationDate, 
+                                                            b.AuthorNames, b.PageCount, b.Format, b.PublishingYear, 
+                                                            v.Duration, v.Quality 
+                                                    FROM dbo.Materials m 
+                                                         LEFT JOIN dbo.Books b ON m.Id = b.Id 
+                                                         LEFT JOIN dbo.Articles a ON a.Id = m.Id 
+                                                         LEFT JOIN dbo.Videos v ON v.Id = m.Id
+                                                         JOIN CourseMaterial cm ON m.Id = cm.MaterialsId
+                                                    WHERE cm.CoursesId = @Id";
 
-        private string insertCourseMaterial = "INSERT INTO CourseMaterials_MtM VALUES (@CourseId, @MaterialId)";
+        private string insertCourseMaterial = "INSERT INTO CourseMaterial VALUES (@CourseId, @MaterialId)";
 
-        private string deleteCourseMaterial = "DELETE FROM CourseMaterials_MtM WHERE CourseId = @CourseId and MaterialId = @MaterialId";
+        private string deleteCourseMaterial = "DELETE FROM CourseMaterial WHERE CoursesId = @CourseId and MaterialsId = @MaterialId";
 
         protected override string InsertQuery => "INSERT INTO Courses([Name], Description, CreatorId) VALUES (@Name, @Description, @CreatorId)";
 
@@ -187,63 +188,43 @@ namespace EducationPortal.DAL.Repository
                 {
                     while (reader.Read())
                     {
-                        try
-                        {
-                            TimeSpan duration = reader.GetTimeSpan(8);
+                        var articleId = reader.GetValue(1);
+                        var bookId = reader.GetValue(2);
+                        var videoId = reader.GetValue(3);
 
-                            var video = new Video
+                        if (!(articleId is DBNull))
+                        {
+                            materials.Add(new Article()
                             {
                                 Id = reader.GetInt32(0),
-                                Name = reader.GetString(1),
-                                Url = reader.GetString(2),
-                                Duration = duration,
-                                Quality = reader.GetString(9),
-                            };
-
-                            materials.Add(video);
-                            continue;
+                                Name = reader.GetString(4),
+                                Url = reader.GetString(5),
+                                PublicationDate = reader.GetDateTime(6),
+                            });
                         }
-                        catch
+                        else if (!(bookId is DBNull))
                         {
-                        }
-
-                        try
-                        {
-                            DateTime publicationDate = reader.GetDateTime(3);
-
-                            var article = new Article()
+                            materials.Add(new Book()
                             {
                                 Id = reader.GetInt32(0),
-                                Name = reader.GetString(1),
-                                Url = reader.GetString(2),
-                                PublicationDate = publicationDate,
-                            };
-                            materials.Add(article);
-                            continue;
+                                Name = reader.GetString(4),
+                                Url = reader.GetString(5),
+                                AuthorNames = reader.GetString(7),
+                                PageCount = reader.GetInt32(8),
+                                Format = reader.GetString(9),
+                                PublishingYear = reader.GetInt16(10),
+                            });
                         }
-                        catch
+                        else if (!(videoId is DBNull))
                         {
-                        }
-
-                        try
-                        {
-                            var authors = reader.GetString(4);
-
-                            var book = new Book()
+                            materials.Add(new Video
                             {
                                 Id = reader.GetInt32(0),
-                                Name = reader.GetString(1),
-                                Url = reader.GetString(2),
-                                AuthorNames = authors,
-                                PageCount = reader.GetInt32(5),
-                                Format = reader.GetString(6),
-                                PublishingYear = reader.GetInt16(7),
-                            };
-                            materials.Add(book);
-                            continue;
-                        }
-                        catch
-                        {
+                                Name = reader.GetString(4),
+                                Url = reader.GetString(5),
+                                Duration = reader.GetTimeSpan(11),
+                                Quality = reader.GetString(12),
+                            });
                         }
                     }
                 }

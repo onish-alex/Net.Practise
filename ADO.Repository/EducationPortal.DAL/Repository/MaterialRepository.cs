@@ -28,14 +28,15 @@ namespace EducationPortal.DAL.Repository
 
         protected override string InsertQuery => "INSERT INTO Materials([Name], [Url]) OUTPUT inserted.id VALUES (@Name, @Url)";
 
-        protected override string SelectQuery => @"SELECT m.Id, m.Name, m.Url, 
-                                                          a.PublicationDate, 
-                                                          b.AuthorNames, b.PageCount, b.Format, b.PublishingYear, 
-                                                          v.Duration, v.Quality 
-                                                    FROM Materials m 
-                                                         LEFT JOIN Books b ON m.Id = b.Id 
-                                                         LEFT JOIN Articles a ON a.Id = m.Id 
-                                                         LEFT JOIN Videos v ON v.Id = m.Id";
+        protected override string SelectQuery => @"SELECT  m.Id, a.Id, b.Id, v.Id, 
+		                                                    m.Name, m.Url, 
+                                                            a.PublicationDate, 
+                                                            b.AuthorNames, b.PageCount, b.Format, b.PublishingYear, 
+                                                            v.Duration, v.Quality 
+                                                    FROM dbo.Materials m 
+                                                            LEFT JOIN dbo.Books b ON m.Id = b.Id 
+                                                            LEFT JOIN dbo.Articles a ON a.Id = m.Id 
+                                                            LEFT JOIN dbo.Videos v ON v.Id = m.Id";
 
         protected override string UpdateQuery => "UPDATE Materials SET Name = @Name, Url = @Url WHERE Id = @Id";
 
@@ -52,30 +53,14 @@ namespace EducationPortal.DAL.Repository
                 var command = new SqlCommand(this.InsertQuery, connection);
                 command.Parameters.AddWithValue("@Name", item.Name);
                 command.Parameters.AddWithValue("@Url", item.Url);
-                command.Parameters.AddWithValue("@Id", item.Id);
 
                 item.Id = (int)command.ExecuteScalar();
 
                 command = new SqlCommand(this.concreteMaterialInsertQueries[item.GetType()], connection);
-                command.Parameters.AddWithValue("@Id", item.Id);
 
-                switch (item)
+                foreach (var prop in item.GetType().GetProperties())
                 {
-                    case Book book:
-                        command.Parameters.AddWithValue("@AuthorNames", book.AuthorNames);
-                        command.Parameters.AddWithValue("@Format", book.Format);
-                        command.Parameters.AddWithValue("@PageCount", book.PageCount);
-                        command.Parameters.AddWithValue("@PublishingYear", book.PublishingYear);
-                        break;
-
-                    case Article article:
-                        command.Parameters.AddWithValue("@PublicationDate", article.PublicationDate);
-                        break;
-
-                    case Video video:
-                        command.Parameters.AddWithValue("@Duration", video.Duration);
-                        command.Parameters.AddWithValue("@Quality", video.Quality);
-                        break;
+                    command.Parameters.AddWithValue("@" + prop.Name, prop.GetValue(item));
                 }
 
                 command.ExecuteNonQuery();
@@ -107,56 +92,44 @@ namespace EducationPortal.DAL.Repository
                 if (reader.HasRows)
                 {
                     reader.Read();
-                    try
-                    {
-                        TimeSpan duration = reader.GetTimeSpan(8);
 
-                        material = new Video
-                        {
-                            Id = reader.GetInt32(0),
-                            Name = reader.GetString(1),
-                            Url = reader.GetString(2),
-                            Duration = duration,
-                            Quality = reader.GetString(9),
-                        };
-                    }
-                    catch
-                    {
-                    }
+                    var articleId = reader.GetValue(1);
+                    var bookId = reader.GetValue(2);
+                    var videoId = reader.GetValue(3);
 
-                    try
+                    if (!(articleId is DBNull))
                     {
-                        DateTime publicationDate = reader.GetDateTime(3);
-
                         material = new Article()
                         {
                             Id = reader.GetInt32(0),
-                            Name = reader.GetString(1),
-                            Url = reader.GetString(2),
-                            PublicationDate = publicationDate,
+                            Name = reader.GetString(4),
+                            Url = reader.GetString(5),
+                            PublicationDate = reader.GetDateTime(6),
                         };
                     }
-                    catch
+                    else if (!(bookId is DBNull))
                     {
-                    }
-
-                    try
-                    {
-                        var authors = reader.GetString(4);
-
                         material = new Book()
                         {
                             Id = reader.GetInt32(0),
-                            Name = reader.GetString(1),
-                            Url = reader.GetString(2),
-                            AuthorNames = authors,
-                            PageCount = reader.GetInt32(5),
-                            Format = reader.GetString(6),
-                            PublishingYear = reader.GetInt16(7),
+                            Name = reader.GetString(4),
+                            Url = reader.GetString(5),
+                            AuthorNames = reader.GetString(7),
+                            PageCount = reader.GetInt32(8),
+                            Format = reader.GetString(9),
+                            PublishingYear = reader.GetInt16(10),
                         };
                     }
-                    catch
+                    else if (!(videoId is DBNull))
                     {
+                        material = new Video
+                        {
+                            Id = reader.GetInt32(0),
+                            Name = reader.GetString(4),
+                            Url = reader.GetString(5),
+                            Duration = reader.GetTimeSpan(11),
+                            Quality = reader.GetString(12),
+                        };
                     }
                 }
             }
@@ -178,25 +151,10 @@ namespace EducationPortal.DAL.Repository
                 command.ExecuteNonQuery();
 
                 command = new SqlCommand(this.concreteMaterialUpdateQueries[item.GetType()], connection);
-                command.Parameters.AddWithValue("@Id", item.Id);
 
-                switch (item)
+                foreach (var prop in item.GetType().GetProperties())
                 {
-                    case Book book:
-                        command.Parameters.AddWithValue("@AuthorNames", book.AuthorNames);
-                        command.Parameters.AddWithValue("@Format", book.Format);
-                        command.Parameters.AddWithValue("@PageCount", book.PageCount);
-                        command.Parameters.AddWithValue("@PublishingYear", book.PublishingYear);
-                        break;
-
-                    case Article article:
-                        command.Parameters.AddWithValue("@PublicationDate", article.PublicationDate);
-                        break;
-
-                    case Video video:
-                        command.Parameters.AddWithValue("@Duration", video.Duration);
-                        command.Parameters.AddWithValue("@Quality", video.Quality);
-                        break;
+                    command.Parameters.AddWithValue("@" + prop.Name, prop.GetValue(item));
                 }
 
                 command.ExecuteNonQuery();
@@ -218,63 +176,43 @@ namespace EducationPortal.DAL.Repository
                 {
                     while (reader.Read())
                     {
-                        try
-                        {
-                            TimeSpan duration = reader.GetTimeSpan(8);
+                        var articleId = reader.GetValue(1);
+                        var bookId = reader.GetValue(2);
+                        var videoId = reader.GetValue(3);
 
-                            var video = new Video
+                        if (!(articleId is DBNull))
+                        {
+                            materials.Add(new Article()
                             {
                                 Id = reader.GetInt32(0),
-                                Name = reader.GetString(1),
-                                Url = reader.GetString(2),
-                                Duration = duration,
-                                Quality = reader.GetString(9),
-                            };
-
-                            materials.Add(video);
-                            continue;
+                                Name = reader.GetString(4),
+                                Url = reader.GetString(5),
+                                PublicationDate = reader.GetDateTime(6),
+                            });
                         }
-                        catch
+                        else if (!(bookId is DBNull))
                         {
-                        }
-
-                        try
-                        {
-                            DateTime publicationDate = reader.GetDateTime(3);
-
-                            var article = new Article()
+                            materials.Add(new Book()
                             {
                                 Id = reader.GetInt32(0),
-                                Name = reader.GetString(1),
-                                Url = reader.GetString(2),
-                                PublicationDate = publicationDate,
-                            };
-                            materials.Add(article);
-                            continue;
+                                Name = reader.GetString(4),
+                                Url = reader.GetString(5),
+                                AuthorNames = reader.GetString(7),
+                                PageCount = reader.GetInt32(8),
+                                Format = reader.GetString(9),
+                                PublishingYear = reader.GetInt16(10),
+                            });
                         }
-                        catch
+                        else if (!(videoId is DBNull))
                         {
-                        }
-
-                        try
-                        {
-                            var authors = reader.GetString(4);
-
-                            var book = new Book()
+                            materials.Add(new Video
                             {
                                 Id = reader.GetInt32(0),
-                                Name = reader.GetString(1),
-                                Url = reader.GetString(2),
-                                AuthorNames = authors,
-                                PageCount = reader.GetInt32(5),
-                                Format = reader.GetString(6),
-                                PublishingYear = reader.GetInt16(7),
-                            };
-                            materials.Add(book);
-                            continue;
-                        }
-                        catch
-                        {
+                                Name = reader.GetString(4),
+                                Url = reader.GetString(5),
+                                Duration = reader.GetTimeSpan(11),
+                                Quality = reader.GetString(12),
+                            });
                         }
                     }
                 }
