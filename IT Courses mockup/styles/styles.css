@@ -1,0 +1,262 @@
+@font-face {
+    font-family: "Play-Bold";
+    src: url("../fonts/Play-Bold.ttf");
+}
+
+@font-face {
+    font-family: "Arial-AMU";
+    src: url("../fonts/Arial\ AMU.ttf")
+}
+
+body {
+    background-color: #E3F1F2 !important;
+}
+
+.about-info p {
+    font-size: 16pt;
+    color: white;
+    text-align: justify;
+}
+
+.about-info .row div {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.about-info abbr {
+    text-decoration: none !important;
+    color: lightgreen;
+}
+
+.authorization-form {
+    background-color: white;
+}
+
+.course-themes,
+.index-it-card {
+    border: rgb(69, 109, 146) 1px solid !important;
+}
+
+.index-it-card {
+    margin-bottom: 2em;
+    margin-right: 1em;
+    margin-left: 1em;
+}
+
+.index-it-card, .course-card {
+    height: 325px;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.course-card {
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    margin-bottom: 1em;
+}
+
+.course-card .card-body {
+    width: 100%;
+    background-color: #e7fafc;
+}
+
+.course-card .card-image {
+    width: auto;
+    height: 60%;
+    flex-shrink: 0;
+}
+
+.course-card .card-title {
+    font-size: 14pt;
+}
+
+.search-button {
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+}
+
+.main-info .achievements {
+    border-top: 3px solid #83a4a7;
+    border-bottom: 3px solid #83a4a7;
+    background-color: #a4c2c4 !important;
+    width: 100%;
+    overflow-x: visible;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+}
+
+.main-info .achievements p {
+    color: rgb(30, 42, 218);
+    margin-bottom: 1em;
+}
+
+.index-it-card .card-image {
+    width: auto;
+    height: 100%;
+    background-color: transparent;
+}
+
+.index-it-card .card-title {
+    position: absolute;
+    padding-top: 10px;
+    margin-bottom: 0;
+    top: 85%;
+    height: 15%;
+    width: 100%;
+    white-space: nowrap;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+} 
+
+.course-name {
+    text-decoration: none;
+    font-weight: bold;
+    color: black;
+}
+
+.course-name:hover {
+    color: rgb(204, 148, 44);
+}
+
+.course-name:active {
+    color: rgb(206, 206, 50);
+}
+
+.card-text ul {
+    text-align: left;
+    padding-left: 0;
+}
+
+.card-text li {
+    list-style-type: none;
+}
+
+.card-text li::before {
+    content: "- ";
+}
+
+.contact-icons div {
+    padding-left: 0;
+}
+
+.contact-icons img {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 5px;
+}
+
+.contact-phones, .contact-email {
+    margin-bottom: 2em;
+}
+
+.contact-email {
+    border-top: 2px solid orange;
+    border-bottom: 2px solid orange;
+    width: fit-content;
+    padding-top: 2em;
+    padding-bottom: 2em;
+    align-self: center;
+}
+
+iframe {
+    border: 1px solid black !important;
+    width: 300px;
+}
+
+.main-info p,
+.main-info ul,
+.main-info span,
+.card-title,
+.about-info p {
+    font-family: "Arial-AMU";       
+}
+
+.main-info p, 
+.main-info ul, 
+.main-info span {
+    font-size: 16pt;
+}
+
+.main-info a {
+    text-decoration: none;
+}
+
+h1, 
+h2, 
+nav, 
+.brand-name {
+    font-family: "Play-Bold";
+}
+
+p strong, 
+.slogan, 
+.main-info a {
+    font-weight: bold;
+}
+
+.slogan {
+    text-align: center !important;
+    font-size: 20pt !important;
+    color: palegoldenrod !important;
+}
+
+@media (min-width: 768px) {
+    .course-card {
+        flex-grow: 0.5 !important;
+    }
+
+    iframe {
+        border: 1px solid black !important;
+        width: 450px;
+    }
+}
+
+@media (min-width: 992px) { 
+    .contact-email {
+        border-top: none;
+        border-bottom: none;
+        padding-left: 2em;
+        padding-right: 2em;
+        margin-bottom: 0;
+    }
+
+    .contact-phones {
+        border-right: 2px solid orange;
+        margin-bottom: 0;
+    }
+
+    .contact-networks {
+        border-left: 2px solid orange;
+    }
+
+    .contact-networks > div, .contact-phones > div {
+        height: 100%;
+        align-content: center;
+    }
+
+    .course-card {
+        flex-grow: 2 !important;
+    }
+
+    .about-info .row div {
+        margin-right: 50px;
+    }
+
+    .contact-icons div {
+        padding-left: 12px;
+    }
+
+    .main-info .achievements p {
+        margin-bottom: 0;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .main-info .achievements p {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
