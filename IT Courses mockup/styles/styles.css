@@ -52,6 +52,11 @@ body {
     text-align: center;
 }
 
+.card-image {
+    width: auto !important;
+    max-height: 100% !important;
+}
+
 .course-card {
     margin-left: 0.5em;
     margin-right: 0.5em;
@@ -64,9 +69,11 @@ body {
 }
 
 .course-card .card-image {
-    width: auto;
-    height: 60%;
+    align-items: center;
+    justify-content: center;
+    height: 60% !important;
     flex-shrink: 0;
+    max-width: 100%;
 }
 
 .course-card .card-title {
@@ -96,7 +103,6 @@ body {
 .index-it-card .card-image {
     width: auto;
     height: 100%;
-    background-color: transparent;
 }
 
 .index-it-card .card-title {
@@ -125,16 +131,16 @@ body {
     color: rgb(206, 206, 50);
 }
 
-.card-text ul {
+.course-card .course-params {
     text-align: left;
     padding-left: 0;
 }
 
-.card-text li {
+.course-params li {
     list-style-type: none;
 }
 
-.card-text li::before {
+.course-card .course-params li::before {
     content: "- ";
 }
 
@@ -171,7 +177,7 @@ iframe {
 .main-info span,
 .card-title,
 .about-info p {
-    font-family: "Arial-AMU";       
+    font-family: "Arial-AMU", sans-serif;       
 }
 
 .main-info p, 
@@ -188,7 +194,7 @@ h1,
 h2, 
 nav, 
 .brand-name {
-    font-family: "Play-Bold";
+    font-family: "Play-Bold", serif;
 }
 
 p strong, 
