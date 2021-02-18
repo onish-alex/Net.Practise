@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.IO;
-
-namespace ConsoleFileManager
+﻿namespace ConsoleFileManager
 {
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+
     public static class Extensions
     {
         public static IEnumerable<string> GetRelativePaths(this IEnumerable<string> paths, string relativeTo)

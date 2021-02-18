@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-
-namespace ConsoleFileManager
+﻿namespace ConsoleFileManager
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+
     public class FileManager
     {
-        private bool isInFile;
-        private string path;
+        public static readonly string BackCommand = ":back";
+
         private static IEnumerable<string> drivesNames = DriveInfo.GetDrives()
                                                                   .Where(drive => drive.IsReady)
                                                                   .Select(drive => drive.Name)
@@ -16,11 +16,12 @@ namespace ConsoleFileManager
 
         private static IEnumerable<string> textReadExtensions = new string[] { ".txt" };
 
-        public static readonly string backCommand = ":back";
+        private bool isInFile;
+        private string path;
 
         public FileManager()
         {
-            path = string.Empty;
+            this.path = string.Empty;
         }
 
         public IEnumerable<string> GetRootContent()
@@ -30,11 +31,11 @@ namespace ConsoleFileManager
 
         public IEnumerable<string> GetContentFromPath(string relativePath)
         {
-            if (path == string.Empty)
+            if (this.path == string.Empty)
             {
                 if (drivesNames.Contains(relativePath))
                 {
-                    path = relativePath;
+                    this.path = relativePath;
                     relativePath = string.Empty;
                 }
                 else
@@ -43,46 +44,70 @@ namespace ConsoleFileManager
                 }
             }
 
-            //if drive root part
-            if (drivesNames.Contains(path+relativePath))
+            // if drive root part
+            if (drivesNames.Contains(this.path + relativePath))
             {
-                return GetFileSystemEntries(string.Empty);
+                return this.GetFileSystemEntries(string.Empty);
             }
 
-            if (isInFile)
+            if (this.isInFile)
             {
                 return null;
             }
 
-            //if input is directory name
-            if (Directory.GetDirectories(path).GetRelativePaths(path).Contains(relativePath))
+            // if input is directory name
+            if (Directory.GetDirectories(this.path).GetRelativePaths(this.path).Contains(relativePath))
             {
-                var fileSystemEntries = GetFileSystemEntries(relativePath);
-                path += relativePath + Path.DirectorySeparatorChar;
-                
+                var fileSystemEntries = this.GetFileSystemEntries(relativePath);
+                this.path += relativePath + Path.DirectorySeparatorChar;
                 return fileSystemEntries;
             }
 
-            //if input if file name
-            if (Directory.GetFiles(path).GetRelativePaths(path).Contains(relativePath))
+            // if input if file name
+            if (Directory.GetFiles(this.path)
+                         .GetRelativePaths(this.path)
+                         .Contains(relativePath))
             {
-                var fileContent = Enumerable.Repeat(GetFileContent(relativePath), 1);
-                path += relativePath + Path.DirectorySeparatorChar;
+                var fileContent = Enumerable.Repeat(this.GetFileContent(relativePath), 1);
+                this.path += relativePath + Path.DirectorySeparatorChar;
 
-                isInFile = true;
-                
+                this.isInFile = true;
+
                 return fileContent;
             }
 
-            return null; 
-        } 
+            return null;
+        }
+
+        public IEnumerable<string> GetPreviousPathEntries()
+        {
+            if (this.isInFile)
+            {
+                this.isInFile = false;
+            }
+
+            if (drivesNames.Contains(this.path)
+             || this.path == string.Empty)
+            {
+                this.path = string.Empty;
+                return drivesNames;
+            }
+            else
+            {
+                var fileSystemEntries = this.GetFileSystemEntries(Path.DirectorySeparatorChar + ".." + Path.DirectorySeparatorChar);
+                this.path = string.Join(Path.DirectorySeparatorChar, this.path.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).SkipLast(1));
+                this.path += Path.DirectorySeparatorChar;
+
+                return fileSystemEntries;
+            }
+        }
 
         private IEnumerable<string> GetFileSystemEntries(string relativePath)
         {
             var fileSystemEntries = new List<string>();
-            fileSystemEntries.AddRange(Directory.GetDirectories(path + relativePath).Where(a => !new DirectoryInfo(a).Attributes.HasFlag(FileAttributes.Hidden)));
-            fileSystemEntries.AddRange(Directory.GetFiles(path + relativePath).Where(a => !new FileInfo(a).Attributes.HasFlag(FileAttributes.Hidden)));
-            
+            fileSystemEntries.AddRange(Directory.GetDirectories(this.path + relativePath).Where(a => !new DirectoryInfo(a).Attributes.HasFlag(FileAttributes.Hidden)));
+            fileSystemEntries.AddRange(Directory.GetFiles(this.path + relativePath).Where(a => !new FileInfo(a).Attributes.HasFlag(FileAttributes.Hidden)));
+
             return fileSystemEntries.Select(entry => entry.Split(Path.DirectorySeparatorChar).Last());
         }
 
@@ -92,7 +117,7 @@ namespace ConsoleFileManager
             {
                 char[] buffer = new char[1024];
 
-                using (var file = File.OpenText(path + relativePath))
+                using (var file = File.OpenText(this.path + relativePath))
                 {
                     file.ReadBlock(buffer, 0, 1024);
                 }
@@ -103,35 +128,12 @@ namespace ConsoleFileManager
             {
                 byte[] buffer = new byte[2048];
 
-                using (var file = File.OpenRead(path + relativePath))
+                using (var file = File.OpenRead(this.path + relativePath))
                 {
                     file.Read(buffer, 0, 2048);
                 }
 
                 return BitConverter.ToString(buffer);
-            }
-        }
-
-        public IEnumerable<string> GetPreviousPathEntries()
-        {
-            if (isInFile)
-            {
-                isInFile = false;
-            }
-
-            if (drivesNames.Contains(path) 
-             || path == string.Empty)
-            {
-                path = string.Empty;
-                return drivesNames;
-            } 
-            else
-            {
-                var fileSystemEntries = GetFileSystemEntries(Path.DirectorySeparatorChar + ".." + Path.DirectorySeparatorChar);
-                path = string.Join(Path.DirectorySeparatorChar, path.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).SkipLast(1));
-                path += Path.DirectorySeparatorChar;;
-                
-                return fileSystemEntries;
             }
         }
     }

@@ -1,28 +1,29 @@
-﻿using System.Collections.Generic;
-
-namespace ConsoleFileManager
+﻿namespace ConsoleFileManager
 {
+    using System.Collections.Generic;
+
     public class FileManagerAdapter : IManager
     {
         private FileManager fileManager;
+
         public FileManagerAdapter()
         {
-            fileManager = new FileManager();
+            this.fileManager = new FileManager();
         }
 
         public IEnumerable<string> GetData(string param)
         {
-            return fileManager.GetContentFromPath(param);
+            return this.fileManager.GetContentFromPath(param);
         }
 
         public IEnumerable<string> GetInitialData()
         {
-            return fileManager.GetRootContent();
+            return this.fileManager.GetRootContent();
         }
 
         public IEnumerable<string> GetPreviousData()
         {
-            return fileManager.GetPreviousPathEntries();
+            return this.fileManager.GetPreviousPathEntries();
         }
     }
 }

@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ConsoleFileManager
+﻿namespace ConsoleFileManager
 {
+    using System.Collections.Generic;
+
     public interface IManager
     {
         public IEnumerable<string> GetInitialData();

@@ -1,7 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
-namespace ConsoleFileManager
+﻿namespace ConsoleFileManager
 {
+    using Microsoft.Extensions.DependencyInjection;
+
     public class Program
     {
         public static void Main(string[] args)
