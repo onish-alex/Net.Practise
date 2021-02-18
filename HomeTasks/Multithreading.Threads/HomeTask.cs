@@ -1,21 +1,12 @@
-﻿using System;
-using System.Threading;
-using System.Linq;
-
-namespace MultithreadingTasks
+﻿namespace MultithreadingTasks
 {
-    public class ThreadDataBlock
-    {
-        public decimal[] Array { get; set; }
-        public decimal[] ResultContainer { get; set; }
-        public int? StartIndex { get; set; }
-        public int? EndIndex { get; set; }
-        public int? Number { get; set; }
-    }
+    using System;
+    using System.Linq;
+    using System.Threading;
 
     public static class HomeTask
     {
-        private static Random rand = new Random();
+        private static readonly Random rand = new Random();
 
         public static void DoParallelTask(ParameterizedThreadStart threadStart, ThreadDataBlock blockParams)
         {
@@ -43,7 +34,7 @@ namespace MultithreadingTasks
                     ResultContainer = blockParams.ResultContainer,
                     StartIndex = (blockParams.StartIndex == null) ? startIndex : blockParams.StartIndex,
                     EndIndex = (blockParams.EndIndex == null) ? endIndex : blockParams.EndIndex,
-                    Number = (blockParams.Number == null) ? i : blockParams.Number
+                    Number = (blockParams.Number == null) ? i : blockParams.Number,
                 };
 
                 threads[i] = new Thread(threadStart);
@@ -65,6 +56,32 @@ namespace MultithreadingTasks
             return array;
         }
 
+        public static decimal[] GetCopy(decimal[] array, int start, int end)
+        {
+            var tempArrayLength = end - start + 1;
+            var tempArray = new decimal[tempArrayLength];
+
+            DoParallelTask((blockInfo) => CopyArray((ThreadDataBlock)blockInfo), new ThreadDataBlock() { Array = tempArray, ResultContainer = array, Number = start });
+
+            return tempArray;
+        }
+
+        public static decimal GetMinimum(decimal[] array)
+        {
+            var partialMinimums = new decimal[Environment.ProcessorCount];
+            var threadBlock = new ThreadDataBlock() { Array = array, ResultContainer = partialMinimums };
+            DoParallelTask((blockInfo) => GetPartialMinimum((ThreadDataBlock)blockInfo), threadBlock);
+            return threadBlock.ResultContainer.Min();
+        }
+
+        public static decimal GetAverage(decimal[] array)
+        {
+            var partialAverages = new decimal[Environment.ProcessorCount];
+            var threadBlock = new ThreadDataBlock() { Array = array, ResultContainer = partialAverages };
+            DoParallelTask((blockInfo) => GetPartialAverage((ThreadDataBlock)blockInfo), threadBlock);
+            return threadBlock.ResultContainer.Average();
+        }
+
         private static void FillArray(ThreadDataBlock blockInfo)
         {
             for (int i = blockInfo.StartIndex.Value; i < blockInfo.EndIndex.Value; i++)
@@ -80,30 +97,12 @@ namespace MultithreadingTasks
             }
         }
 
-        public static decimal[] GetCopy(decimal[] array, int start, int end)
-        {
-            var tempArrayLength = end - start + 1;
-            var tempArray = new decimal[tempArrayLength];
-
-            DoParallelTask((blockInfo) => CopyArray((ThreadDataBlock)blockInfo), new ThreadDataBlock() { Array = tempArray, ResultContainer = array, Number = start });
-
-            return tempArray;
-        }
-
         private static void CopyArray(ThreadDataBlock blockInfo)
         {
             for (int i = blockInfo.StartIndex.Value; i < blockInfo.EndIndex.Value; i++)
             {
                 blockInfo.Array[i] = blockInfo.ResultContainer[i + blockInfo.Number.Value];
             }
-        }
-
-        public static decimal GetMinimum(decimal[] array)
-        {
-            var partialMinimums = new decimal[Environment.ProcessorCount];
-            var threadBlock = new ThreadDataBlock() { Array = array, ResultContainer = partialMinimums };
-            DoParallelTask((blockInfo) => GetPartialMinimum((ThreadDataBlock)blockInfo), threadBlock);
-            return threadBlock.ResultContainer.Min();
         }
 
         private static void GetPartialMinimum(ThreadDataBlock blockInfo)
@@ -116,15 +115,8 @@ namespace MultithreadingTasks
                     min = blockInfo.Array[i];
                 }
             }
-            blockInfo.ResultContainer[blockInfo.Number.Value] = min;
-        }
 
-        public static decimal GetAverage(decimal[] array)
-        {
-            var partialAverages = new decimal[Environment.ProcessorCount];
-            var threadBlock = new ThreadDataBlock() { Array = array, ResultContainer = partialAverages };
-            DoParallelTask((blockInfo) => GetPartialAverage((ThreadDataBlock)blockInfo), threadBlock);
-            return threadBlock.ResultContainer.Average();
+            blockInfo.ResultContainer[blockInfo.Number.Value] = min;
         }
 
         private static void GetPartialAverage(ThreadDataBlock blockInfo)
@@ -133,6 +125,7 @@ namespace MultithreadingTasks
             {
                 blockInfo.ResultContainer[blockInfo.Number.Value] += blockInfo.Array[i];
             }
+
             blockInfo.ResultContainer[blockInfo.Number.Value] /= blockInfo.EndIndex.Value - blockInfo.StartIndex.Value + 1;
         }
     }

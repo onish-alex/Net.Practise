@@ -1,11 +1,11 @@
-﻿using System;
-using System.Diagnostics;
-
-namespace MultithreadingTasks
+﻿namespace MultithreadingTasks
 {
+    using System;
+    using System.Diagnostics;
+
     public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             LessonTask task = new LessonTask(10000000);
 

@@ -1,15 +1,15 @@
-﻿using System;
-using System.Threading;
-using System.Linq;
-
-namespace MultithreadingTasks
+﻿namespace MultithreadingTasks
 {
+    using System;
+    using System.Linq;
+    using System.Threading;
+
     public class LessonTask
     {
         private decimal[] array;
         private int arrayLength;
         private int threadCount;
-        decimal[] threadResults;
+        private decimal[] threadResults;
 
         public LessonTask(int arrayLength)
         {
@@ -19,7 +19,7 @@ namespace MultithreadingTasks
 
             for (int i = 0; i < arrayLength; i++)
             {
-                array[i] = (decimal)rand.NextDouble();
+                this.array[i] = (decimal)rand.NextDouble();
             }
         }
 
@@ -31,8 +31,8 @@ namespace MultithreadingTasks
 
             for (int i = 0; i < threadCount; i++)
             {
-                threadResults[i] = 0;
-                threads[i] = new Thread((number) => GetPartialSum((int)number));
+                this.threadResults[i] = 0;
+                threads[i] = new Thread((number) => this.GetPartialSum((int)number));
                 threads[i].Start(i);
             }
 
@@ -41,18 +41,17 @@ namespace MultithreadingTasks
                 threads[i].Join();
             }
 
-            return threadResults.Sum();
+            return this.threadResults.Sum();
         }
 
         private void GetPartialSum(int number)
         {
-            int start = number * (arrayLength / threadCount);
-            int end = (number + 1) * (arrayLength / threadCount);
+            int start = number * (this.arrayLength / this.threadCount);
+            int end = (number + 1) * (this.arrayLength / this.threadCount);
             for (int i = start; i < end; i++)
             {
-                threadResults[number] += array[i];
+                this.threadResults[number] += this.array[i];
             }
         }
-
     }
 }
