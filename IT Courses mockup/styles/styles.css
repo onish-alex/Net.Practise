@@ -12,6 +12,14 @@ body {
     background-color: #E3F1F2 !important;
 }
 
+.contact-info,
+.courses-info,
+.auth-reg-container,
+.main-info,
+.about-info {
+    margin-top: 4.5em;
+}
+
 .about-info p {
     font-size: 16pt;
     color: white;
@@ -71,9 +79,9 @@ body {
 .course-card .card-image {
     align-items: center;
     justify-content: center;
-    height: 60% !important;
+    height: fit-content !important;
     flex-shrink: 0;
-    max-width: 100%;
+    width: 100% !important;
 }
 
 .course-card .card-title {
@@ -209,6 +217,21 @@ p strong,
     color: palegoldenrod !important;
 }
 
+.courses-field {
+    justify-content: space-around;
+}
+
+@media (min-width: 576px) {
+    .course-card .card-image {
+        height: 60% !important;
+        max-width: 100%;
+    }
+
+    .course-card .card-body {
+        height: 40% !important;
+    }
+}
+
 @media (min-width: 768px) {
     .course-card {
         flex-grow: 0.5 !important;
@@ -265,4 +288,106 @@ p strong,
         padding-left: 0;
         padding-right: 0;
     }
+}
+
+@media (min-width: 1800px) {
+    h1 {
+        font-size: 48pt !important;
+    }
+
+    nav a{
+        font-size: 22pt !important;
+    }
+    
+    p, span, .navbar-brand, .contact-phones {
+        font-size: 28pt !important;
+    }
+
+    .contact-icons img {
+        width: 85px !important;
+        height: 85px !important;
+    }
+
+    .index-it-card .card-title {
+        top: 80%;
+        height: 20%;
+    } 
+
+    .main-info, .about-info {
+        margin: 5.5em;
+    }
+
+    .contact-info, .auth-reg-container, .courses-info {
+        margin: 6em;
+    }
+
+    .contact-info > p, h2 {
+        font-size: 32pt !important;
+    }
+
+    iframe {
+        width: 800px;
+        height: 600px;
+    }
+
+    .nav-link, .navbar-brand {
+        padding-left: 0.75em !important;
+        
+    }
+
+    .nav-link {
+        padding-right: 0.75em !important;
+    }
+
+    .slogan {
+        font-size: 36pt !important;
+    }
+
+    .authorization-form input, 
+    .authorization-form button {
+        font-size: 22pt;
+    }
+
+    .courses-info label,
+    .courses-info select {
+        font-size: 22pt !important;
+    }
+
+    .course-card {
+        width: 24% !important;
+    }
+
+    .course-card a {
+        font-size: 24pt !important;
+    }
+
+    .course-card .card-text {
+        font-size: 18pt !important;
+    }
+
+    .courses-field {
+        justify-content: left;
+    }
+
+    .courses-info input[type="checkbox"] {
+        height: 25px;
+        width: 25px;
+        margin-right: 10px;
+    }
+
+    .course-card .card-image {
+        height: 50% !important;
+    }
+
+    .course-card .card-body {
+        height: 50% !important;
+    }
+}
+
+@media (min-width: 1800px) {
+    .course-card {
+        width: 30% !important;
+        flex-grow: 0 !important;
+        height: 500px;
+    }    
 }
