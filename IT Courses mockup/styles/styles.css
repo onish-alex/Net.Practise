@@ -93,6 +93,10 @@ body {
     padding-left: 0 !important;
 }
 
+#search-button {
+    height: 100%;
+}
+
 .main-info .achievements {
     border-top: 3px solid #83a4a7;
     border-bottom: 3px solid #83a4a7;
@@ -353,8 +357,14 @@ p strong,
         font-size: 22pt !important;
     }
 
+    .courses-info option {
+        font-size: 10pt;
+    }
+
     .course-card {
         width: 24% !important;
+        flex-grow: 0 !important;
+        height: 500px;
     }
 
     .course-card a {
@@ -382,12 +392,8 @@ p strong,
     .course-card .card-body {
         height: 50% !important;
     }
-}
-
-@media (min-width: 1800px) {
-    .course-card {
-        width: 30% !important;
-        flex-grow: 0 !important;
-        height: 500px;
-    }    
+   
+    #search-input {
+        font-size: 28pt;
+    }
 }
