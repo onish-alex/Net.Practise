@@ -302,10 +302,6 @@ p strong,
     h1 {
         font-size: 48pt !important;
     }
-
-    nav a{
-        font-size: 22pt !important;
-    }
     
     p, span, .navbar-brand, .contact-phones {
         font-size: 28pt !important;
@@ -351,13 +347,11 @@ p strong,
         font-size: 36pt !important;
     }
 
+    nav a,
+    .courses-info label,
+    .courses-info select,
     .authorization-form input, 
     .authorization-form button {
-        font-size: 22pt;
-    }
-
-    .courses-info label,
-    .courses-info select {
         font-size: 22pt !important;
     }
 
@@ -389,10 +383,7 @@ p strong,
         margin-right: 10px;
     }
 
-    .course-card .card-image {
-        height: 50% !important;
-    }
-
+    .course-card .card-image,
     .course-card .card-body {
         height: 50% !important;
     }
