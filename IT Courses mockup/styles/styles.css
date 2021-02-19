@@ -12,6 +12,10 @@ body {
     background-color: #E3F1F2 !important;
 }
 
+.nav-link {
+    padding-left: 1em !important;
+}
+
 .contact-info,
 .courses-info,
 .auth-reg-container,
