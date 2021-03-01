@@ -1,0 +1,84 @@
+.course-title {
+    font-size: 20pt;
+    font-family: "Arial-AMU", sans-serif;
+    text-align: center;
+}
+
+.course-image {
+    max-height: 400px;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid lightskyblue;
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+    background-color: white;
+}
+
+.course-image img {
+    height: 100%;
+    width: 100% !important;
+}
+
+.concrete-course-info {
+    margin-top: 4.5em;
+}
+
+.concrete-course-info .course-params {
+    font-size: 16pt;
+    text-align: center;
+}
+
+.concrete-course-info .course-params li {
+    margin-bottom: 0.5em;
+}
+
+.concrete-course-info .description {
+    font-size: 14pt;
+    text-align: justify;
+    font-family: "Arial-AMU", sans-serif;
+}
+
+.concrete-course-info .description * {
+    width: 92%;
+}
+
+@media (min-width: 576px) {
+    .concrete-course-info .course-params li {
+        margin-bottom: 0;
+    }
+
+    .course-title {
+        font-size: 28pt;
+    }
+}
+
+@media (min-width: 1800px) {
+    
+    h2 {
+        font-size: 36pt !important;
+    }
+    
+    ul {
+        font-size: 28pt !important;
+    }
+
+    h3 {
+        font-size: 32pt;
+    }
+
+    .course-params {
+        font-size: 28pt !important;
+    }
+
+    .concrete-course-info {
+        margin-top: 6em;
+    }
+    
+    .join-button button{
+        font-size: 24pt;
+    }
+
+    .course-image {
+        max-height: 550px !important;
+    }
+}
