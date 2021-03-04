@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = "Редактировать запись";
+}
+@using PhoneBook.ViewModels;
+@model PhoneViewModel
+
+<form class="container" asp-action="Edit" asp-controller="Home">
+
+    <div class="row text-center justify-content-center" asp-validation-summary="All"></div>
+
+    <input asp-for="Id" type="hidden" value="@Model.Id" />
+    <input asp-for="CreatorId" type="hidden" value="@Model.CreatorId" />
+    <input asp-for="CreationDate" type="hidden" value="@Model.CreationDate" />
+    <input asp-for="LastUpdateDate" type="hidden" value="@Model.LastUpdateDate" />
+
+    <div class="row">
+        <div class="col-3">
+            <label asp-for="PhoneNumber">Номер:</label>
+        </div>
+            <input asp-for="PhoneNumber" type="tel" value="@Model.PhoneNumber" />
+    </div>
+
+    <div class="row">
+        <div class="col-3">
+
+            <label asp-for="Address">Адрес</label>
+        </div>
+        <input asp-for="Address" value="@Model.Address" />
+    </div>
+
+    <div class="row">
+        <div class="col-3">
+            <label asp-for="Status">Статус</label>
+        </div>
+        <select asp-for="Status" value="@Model.Status">
+            <option>Актуальный</option>
+            <option>Нектуальный</option>
+            <option>Требует уточнения</option>
+        </select>
+    </div>
+
+    <div class="row">
+        <input class="btn btn-primary" type="submit" value="Подтвердить" />
+    </div>
+</form>
+
+<a asp-action="Phone" asp-controller="Home" asp-route-id="@Model.Id">Вернутся к записи</a>

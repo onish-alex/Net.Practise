@@ -1,0 +1,17 @@
+﻿@model ErrorViewModel
+@{
+    ViewData["Title"] = "Error";
+}
+
+<h1 class="text-danger">Ошибка.</h1>
+
+@if (Model.ShowRequestId)
+{
+    <p>
+        <strong>Request ID:</strong> <code>@Model.RequestId</code>
+    </p>
+}
+
+<p>
+    В ходе работы приложения возникла ошибка. Попробуйте перезайти в свой профиль. Если это не поможет, свяжитесь с администратором.
+</p>

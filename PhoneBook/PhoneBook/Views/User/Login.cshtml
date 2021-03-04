@@ -1,0 +1,22 @@
+﻿@using PhoneBook.ViewModels
+@model LoginViewModel
+
+<div class="container">
+    <h2 class="text-center mb-3">Авторизация</h2>
+    <form asp-controller="User" asp-action="Login">
+        <div class="validation row text-center justify-content-center" asp-validation-summary="All"></div>
+
+        <div class="row text-center justify-content-center mb-2 mt-2">
+            <input type="text" asp-for="Login" placeholder="Логин"/>
+        </div>
+        <div class="row text-center justify-content-center mb-2">
+            <input type="password" asp-for="Password" placeholder="Пароль"/>
+        </div>
+        <div class="row text-center justify-content-center mb-2">
+            <input type="submit" value="Авторизация" class="btn btn-primary"/>
+        </div>
+        <div class="row text-center justify-content-center mb-2">
+            <a asp-action="Register" asp-controller="User" class="btn btn-link">Зарегистрироваться</a>
+        </div>
+    </form>
+</div>
