@@ -1,9 +1,13 @@
 ﻿namespace PhoneBook.ViewModels
 {
-    public class ConcretePhoneViewModel
-    {
-        public PhoneViewModel Phone { get; set; }
+    using System;
 
+    public class ConcretePhoneViewModel : BasePhoneViewModel
+    {
         public bool IsCreator { get; set; }
+
+        public DateTime CreationDate { get; set; }
+
+        public DateTime LastUpdateDate { get; set; }
     }
 }

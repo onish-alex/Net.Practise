@@ -2,16 +2,14 @@
     ViewData["Title"] = "Редактировать запись";
 }
 @using PhoneBook.ViewModels;
-@model PhoneViewModel
+@model EditPhoneViewModel
 
-<form class="container" asp-action="Edit" asp-controller="Home">
+<form class="container" asp-action="Edit" method="post">
 
     <div class="row text-center justify-content-center" asp-validation-summary="All"></div>
 
     <input asp-for="Id" type="hidden" value="@Model.Id" />
     <input asp-for="CreatorId" type="hidden" value="@Model.CreatorId" />
-    <input asp-for="CreationDate" type="hidden" value="@Model.CreationDate" />
-    <input asp-for="LastUpdateDate" type="hidden" value="@Model.LastUpdateDate" />
 
     <div class="row">
         <div class="col-3">
@@ -30,13 +28,20 @@
 
     <div class="row">
         <div class="col-3">
-            <label asp-for="Status">Статус</label>
+            <label asp-for="StatusName">Статус</label>
         </div>
-        <select asp-for="Status" value="@Model.Status">
-            <option>Актуальный</option>
-            <option>Нектуальный</option>
-            <option>Требует уточнения</option>
+        <select asp-for="StatusName" value="@Model.StatusName">
+            @foreach (var item in Model.StatusNames)
+            {
+                <option>@item</option>
+            }
         </select>
+
+        @foreach (var item in Model.StatusNames)
+        {
+            <input asp-for="@Model.StatusNames" type="hidden" value="@item"/>
+        }
+
     </div>
 
     <div class="row">
@@ -44,4 +49,4 @@
     </div>
 </form>
 
-<a asp-action="Phone" asp-controller="Home" asp-route-id="@Model.Id">Вернутся к записи</a>
+<a asp-action="Phone" asp-route-id="@Model.Id">Вернутся к записи</a>

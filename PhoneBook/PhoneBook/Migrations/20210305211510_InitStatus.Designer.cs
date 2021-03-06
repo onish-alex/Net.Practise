@@ -10,8 +10,8 @@ using PhoneBook.Data;
 namespace PhoneBook.Migrations
 {
     [DbContext(typeof(PhoneBookDbContext))]
-    [Migration("20210303154545_Initial")]
-    partial class Initial
+    [Migration("20210305211510_InitStatus")]
+    partial class InitStatus
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace PhoneBook.Migrations
                 .HasAnnotation("ProductVersion", "5.0.3")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("PhoneBook.Data.BookEntry", b =>
+            modelBuilder.Entity("PhoneBook.Models.BookEntry", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -33,7 +33,7 @@ namespace PhoneBook.Migrations
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("CreatorId")
+                    b.Property<Guid>("CreatorId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("LastUpdateDate")
@@ -42,17 +42,50 @@ namespace PhoneBook.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("StatusId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CreatorId");
 
+                    b.HasIndex("StatusId");
+
                     b.ToTable("BookEntries");
                 });
 
-            modelBuilder.Entity("PhoneBook.Data.User", b =>
+            modelBuilder.Entity("PhoneBook.Models.BookEntryStatus", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BookEntryStatuses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("9eabc1db-7b45-43e8-854b-a13e7383a745"),
+                            Name = "Актуально"
+                        },
+                        new
+                        {
+                            Id = new Guid("42f0a156-330e-4aa8-9605-8a171903796e"),
+                            Name = "Требует подтверждения"
+                        },
+                        new
+                        {
+                            Id = new Guid("48b09bb2-3145-4e38-9174-cac1485f9ed5"),
+                            Name = "Нектуально"
+                        });
+                });
+
+            modelBuilder.Entity("PhoneBook.Models.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -69,16 +102,26 @@ namespace PhoneBook.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("PhoneBook.Data.BookEntry", b =>
+            modelBuilder.Entity("PhoneBook.Models.BookEntry", b =>
                 {
-                    b.HasOne("PhoneBook.Data.User", "Creator")
+                    b.HasOne("PhoneBook.Models.User", "Creator")
                         .WithMany("Entries")
-                        .HasForeignKey("CreatorId");
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PhoneBook.Models.BookEntryStatus", "Status")
+                        .WithMany()
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Creator");
+
+                    b.Navigation("Status");
                 });
 
-            modelBuilder.Entity("PhoneBook.Data.User", b =>
+            modelBuilder.Entity("PhoneBook.Models.User", b =>
                 {
                     b.Navigation("Entries");
                 });

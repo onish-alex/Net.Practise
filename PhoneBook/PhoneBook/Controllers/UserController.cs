@@ -1,46 +1,51 @@
 ﻿namespace PhoneBook.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.Security.Claims;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
-    using PhoneBook.Data;
-    using PhoneBook.Models;
-    using PhoneBook.Validation;
+    using PhoneBook.Services;
     using PhoneBook.ViewModels;
 
     public class UserController : Controller
     {
-        private PhoneBookDbContext dbContext;
+        private IUserService userService;
 
-        public UserController(
-            PhoneBookDbContext dbContext)
+        public UserController(IUserService userService)
         {
-            this.dbContext = dbContext;
+            this.userService = userService;
         }
 
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult Login([FromQuery] string returnUrl = null)
         {
+            if (this.User.Identity.IsAuthenticated)
+            {
+                return this.Redirect(returnUrl ?? "/");
+            }
+
+            this.ViewBag.ReturnUrl = returnUrl;
+
             return this.View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        public async Task<IActionResult> Login(
+            [FromForm]LoginViewModel model,
+            [FromQuery]string returnUrl = null)
         {
             if (this.ModelState.IsValid)
             {
-                User user = await this.dbContext.Users.FirstOrDefaultAsync(u => u.Login == model.Login && u.Password == model.Password);
-                if (user != null)
-                {
-                    await this.Authenticate(model.Login);
+                var result = await this.userService.LoginAsync(model);
 
-                    this.HttpContext.Response.Cookies.Append("Id", user.Id.ToString());
-                    return this.RedirectToAction("Index", "Home");
+                if (result.CheckResult)
+                {
+                    await this.Authenticate(model.Login, result.UserId);
+                    return this.LocalRedirect(returnUrl ?? "/");
                 }
 
                 this.ModelState.AddModelError(string.Empty, "Неверно введенный логин и(или) пароль");
@@ -59,19 +64,12 @@
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            if (model == null)
-            {
-                this.ModelState.AddModelError(string.Empty, ValidationMessages.UserRegisterNull);
-            }
-
             if (this.ModelState.IsValid)
             {
-                User user = await this.dbContext.Users.FirstOrDefaultAsync(u => u.Login == model.Login);
-                if (user == null)
-                {
-                    this.dbContext.Users.Add(new User { Login = model.Login, Password = model.Password });
-                    await this.dbContext.SaveChangesAsync();
+                var result = await this.userService.RegisterAsync(model);
 
+                if (result)
+                {
                     return this.RedirectToAction("Login", "User");
                 }
                 else
@@ -89,15 +87,21 @@
             return this.RedirectToAction("Login", "User");
         }
 
-        private async Task Authenticate(string userName)
+        private async Task Authenticate(string userName, Guid userId)
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userName),
+                new Claim(ClaimTypes.Name, userName),
+                new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
             };
 
-            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-            await this.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+            var identity = new ClaimsIdentity(
+                claims,
+                CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var principal = new ClaimsPrincipal(identity);
+
+            await this.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
         }
     }
 }

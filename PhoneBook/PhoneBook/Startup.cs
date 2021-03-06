@@ -1,6 +1,5 @@
 namespace PhoneBook
 {
-    using FluentValidation;
     using FluentValidation.AspNetCore;
     using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Builder;
@@ -11,9 +10,8 @@ namespace PhoneBook
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using PhoneBook.Data;
-    using PhoneBook.Settings;
-    using PhoneBook.Validation;
-    using PhoneBook.ViewModels;
+    using PhoneBook.Services;
+    using PhoneBook.Settings.MappingProfiles;
 
     public class Startup
     {
@@ -27,7 +25,12 @@ namespace PhoneBook
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddFluentValidation(opt =>
+            {
+                opt.RegisterValidatorsFromAssemblyContaining<Startup>();
+                opt.ImplicitlyValidateChildProperties = true;
+            });
+
             services.AddDbContext<PhoneBookDbContext>(options =>
                 options.UseSqlServer(this.Configuration.GetConnectionString("PhoneBookDB")));
 
@@ -37,12 +40,10 @@ namespace PhoneBook
                     options.LoginPath = new PathString("/User/Login");
                 });
 
-            services.AddSingleton(new AutoMapper.Mapper(MapperConfiguration.Configuration));
-            services.AddSingleton(this.Configuration);
-            services.AddMvc().AddFluentValidation();
-            services.AddTransient<IValidator<RegisterViewModel>, RegisterValidator>();
-            services.AddTransient<IValidator<LoginViewModel>, LoginValidator>();
-            services.AddTransient<IValidator<PhoneViewModel>, PhoneValidator>();
+            services.AddAutoMapper(cfg => cfg.AddProfile<MainProfile>());
+
+            services.AddScoped<IPhoneService, PhoneService>();
+            services.AddScoped<IUserService, UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,7 +55,7 @@ namespace PhoneBook
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/PhoneStorage/Error");
 
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
@@ -72,7 +73,7 @@ namespace PhoneBook
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=PhoneStorage}/{action=Index}/{id?}");
             });
         }
     }

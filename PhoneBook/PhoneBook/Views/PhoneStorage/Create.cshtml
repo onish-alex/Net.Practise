@@ -2,9 +2,9 @@
     ViewData["Title"] = "Внести новый номер";
 }
 @using PhoneBook.ViewModels;
-@model PhoneViewModel
+@model CreatePhoneViewModel
 
-<form class="container" asp-action="Create" asp-controller="Home">
+<form class="container" asp-action="Create">
 
     <div class="row text-center justify-content-center" asp-validation-summary="All"></div>
 
@@ -25,13 +25,19 @@
 
     <div class="row">
         <div class="col-3">
-            <label asp-for="Status">Статус</label>
+            <label asp-for="StatusName">Статус</label>
         </div>
-        <select asp-for="Status">
-            <option>Актуальный</option>
-            <option>Нектуальный</option>
-            <option>Требует уточнения</option>
+        <select asp-for="StatusName" value="@Model.StatusName">
+        @foreach (var item in Model.StatusNames)
+        {
+            <option>@item</option>
+        }
         </select>
+
+        @foreach (var item in Model.StatusNames)
+        {
+            <input asp-for="@Model.StatusNames" type="hidden" value="@item" />
+        }
     </div>
 
     <div class="row">

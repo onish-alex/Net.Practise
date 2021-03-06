@@ -4,7 +4,7 @@
     using PhoneBook.Settings;
     using PhoneBook.ViewModels;
 
-    public class PhoneValidator : AbstractValidator<PhoneViewModel>
+    public class PhoneValidator : AbstractValidator<BasePhoneViewModel>
     {
         public PhoneValidator()
         {

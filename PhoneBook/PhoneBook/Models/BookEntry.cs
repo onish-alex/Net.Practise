@@ -14,7 +14,9 @@
 
         public DateTime LastUpdateDate { get; set; }
 
-        public string Status { get; set; }
+        public Guid StatusId { get; set; }
+
+        public BookEntryStatus Status { get; set; }
 
         public Guid CreatorId { get; set; }
 

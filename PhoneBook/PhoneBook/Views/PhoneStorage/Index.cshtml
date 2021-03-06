@@ -1,0 +1,56 @@
+﻿@{
+    ViewData["Title"] = "Телефонный справочник";
+}
+@using PhoneBook.ViewModels;
+@model PagingListViewModel<BasePhoneViewModel>
+
+<div class="phone-list row justify-content-center">
+
+    @if (Model.Count != 0)
+    {
+        <div class="col-12 text-center border-bottom border-dark">
+            @for (var i = Model.MinPage; i <= Model.MaxPage; i++)
+            {
+                @if (i == Model.Page)
+                {
+                    <span>@i</span>
+                }
+                else
+                {
+                    <a asp-action="Index" 
+                        asp-route-page="@i">@i</a>
+                }
+            }
+        </div>
+
+        <div class="col-5 my-4">
+            @for (var i = 0; i < Model.Count; i++)
+            {
+                <div class="row justify-content-between border-bottom border-primary py-2">
+                    <p class="">@((i + 1) + (Model.Page - 1) * Model.PageSize))</p>
+                    <a asp-action="Phone" asp-route-id="@Model[i].Id">@Model[i].PhoneNumber</a>
+                </div>
+            }
+        </div>
+
+        <div class="col-12 text-center border-top border-dark">
+            @for (var i = Model.MinPage; i <= Model.MaxPage; i++)
+            {
+                @if (i == Model.Page)
+                {
+                    <span>@i</span>
+                }
+                else
+                {
+                    <a asp-action="Index"
+                        asp-route-page="@i">@i</a>
+                }
+            }
+        </div>
+    } 
+    else
+    {
+        <p>Пока что никто не добавил записи в справочник. </p> 
+        <a asp-action="Create">Станьте первым, кто это сделает!</a>
+    }
+</div>

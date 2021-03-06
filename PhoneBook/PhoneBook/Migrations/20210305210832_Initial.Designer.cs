@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PhoneBook.Data;
 
 namespace PhoneBook.Migrations
 {
     [DbContext(typeof(PhoneBookDbContext))]
-    partial class PhoneBookDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210305210832_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,23 +66,6 @@ namespace PhoneBook.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("BookEntryStatuses");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("9eabc1db-7b45-43e8-854b-a13e7383a745"),
-                            Name = "Актуально"
-                        },
-                        new
-                        {
-                            Id = new Guid("42f0a156-330e-4aa8-9605-8a171903796e"),
-                            Name = "Требует подтверждения"
-                        },
-                        new
-                        {
-                            Id = new Guid("48b09bb2-3145-4e38-9174-cac1485f9ed5"),
-                            Name = "Нектуально"
-                        });
                 });
 
             modelBuilder.Entity("PhoneBook.Models.User", b =>
