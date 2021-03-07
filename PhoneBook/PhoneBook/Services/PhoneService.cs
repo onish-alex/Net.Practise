@@ -23,9 +23,9 @@
             this.mapper = mapper;
         }
 
-        public PagingListViewModel<BasePhoneViewModel> GetPage(int page, int pageSize, int pageLinkCount)
+        public EntityPage<BookEntry> GetPage(PageSelectViewModel pageSelectViewModel)
         {
-            if (pageSize < 1)
+            if (pageSelectViewModel.Size < 1)
             {
                 throw new ArgumentException("Некорректный размер страницы вывода");
             }
@@ -34,43 +34,42 @@
 
             if (entriesCount == 0)
             {
-                return new PagingListViewModel<BasePhoneViewModel>();
+                return new EntityPage<BookEntry>();
             }
 
-            var allPageCount = (int)Math.Ceiling(entriesCount / (double)pageSize);
+            var allPageCount = (int)Math.Ceiling(entriesCount / (double)pageSelectViewModel.Size);
 
-            if (page < 1 || page > allPageCount)
+            if (pageSelectViewModel.Number < 1
+             || pageSelectViewModel.Number > allPageCount)
             {
                 throw new ArgumentException("Некорректный номер страницы вывода");
             }
 
             var phones = this.dbContext.Entries
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
+                .Skip((pageSelectViewModel.Number - 1) * pageSelectViewModel.Size)
+                .Take(pageSelectViewModel.Size)
                 .ToList();
 
-            var phoneViewModels = this.mapper.Map<IList<BasePhoneViewModel>>(phones);
-
-            var minPage = (page - (pageLinkCount / 2) < 1)
+            var minPage = (pageSelectViewModel.Number - (pageSelectViewModel.LinkCount / 2) < 1)
                         ? 1
-                        : page - (pageLinkCount / 2);
+                        : pageSelectViewModel.Number - (pageSelectViewModel.LinkCount / 2);
 
-            var maxPage = (minPage + pageLinkCount - 1 < allPageCount)
-                        ? minPage + pageLinkCount - 1
+            var maxPage = (minPage + pageSelectViewModel.LinkCount - 1 < allPageCount)
+                        ? minPage + pageSelectViewModel.LinkCount - 1
                         : allPageCount;
 
-            var result = new PagingListViewModel<BasePhoneViewModel>(
-                phoneViewModels,
-                page,
+            var result = new EntityPage<BookEntry>(
+                phones,
+                pageSelectViewModel.Number,
                 minPage,
                 maxPage,
                 allPageCount,
-                pageSize);
+                pageSelectViewModel.Size);
 
             return result;
         }
 
-        public ConcretePhoneViewModel GetConcretePhone(Guid phoneId, Guid userId)
+        public BookEntry GetConcretePhone(Guid phoneId)
         {
             var phone = this.dbContext.Entries
                 .Include(x => x.Status)
@@ -81,10 +80,7 @@
                 throw new NullReferenceException("Запрашиваемая запись не найдена");
             }
 
-            var viewModel = this.mapper.Map<ConcretePhoneViewModel>(phone);
-            viewModel.IsCreator = userId == phone.CreatorId;
-
-            return viewModel;
+            return phone;
         }
 
         public async Task EditPhoneAsync(EditPhoneViewModel phoneViewModel, Guid userId)
@@ -105,14 +101,16 @@
             await this.dbContext.SaveChangesAsync();
         }
 
-        public EditPhoneViewModel GetEditModel(Guid phoneId)
+        public BookEntry GetEditModel(Guid phoneId)
         {
             var phone = this.dbContext.Entries.Find(phoneId);
-            var statusNames = this.dbContext.Statuses.Select(x => x.Name);
 
-            var editViewModel = this.mapper.Map<EditPhoneViewModel>(phone);
-            editViewModel.StatusNames = statusNames;
-            return editViewModel;
+            if (phone == null)
+            {
+                throw new ArgumentException("Запрашиваемая запись не найдена!");
+            }
+
+            return phone;
         }
 
         public IEnumerable<string> GetStatusNames()
@@ -120,7 +118,7 @@
             return this.dbContext.Statuses.Select(x => x.Name) ?? Enumerable.Empty<string>();
         }
 
-        public async Task<ConcretePhoneViewModel> CreatePhoneAsync(CreatePhoneViewModel phoneViewModel, Guid userId)
+        public async Task<BookEntry> CreatePhoneAsync(CreatePhoneViewModel phoneViewModel, Guid userId)
         {
             var phoneToAdd = this.mapper.Map<BookEntry>(phoneViewModel);
 
@@ -132,9 +130,7 @@
             await this.dbContext.Entries.AddAsync(phoneToAdd);
             await this.dbContext.SaveChangesAsync();
 
-            var createdPhone = this.mapper.Map<ConcretePhoneViewModel>(phoneToAdd);
-            createdPhone.IsCreator = true;
-            return createdPhone;
+            return phoneToAdd;
         }
 
         public async Task DeletePhoneAsync(Guid phoneId, Guid userId)

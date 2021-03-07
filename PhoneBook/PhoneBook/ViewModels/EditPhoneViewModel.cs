@@ -1,7 +1,6 @@
 ﻿namespace PhoneBook.ViewModels
 {
     using System;
-    using System.Collections.Generic;
 
     public class EditPhoneViewModel : CreatePhoneViewModel
     {

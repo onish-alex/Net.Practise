@@ -30,18 +30,7 @@
         <div class="col-3">
             <label asp-for="StatusName">Статус</label>
         </div>
-        <select asp-for="StatusName" value="@Model.StatusName">
-            @foreach (var item in Model.StatusNames)
-            {
-                <option>@item</option>
-            }
-        </select>
-
-        @foreach (var item in Model.StatusNames)
-        {
-            <input asp-for="@Model.StatusNames" type="hidden" value="@item"/>
-        }
-
+        <select asp-for="StatusName" asp-items="@new SelectList(Model.StatusNames)" value="@Model.StatusName"></select>
     </div>
 
     <div class="row">

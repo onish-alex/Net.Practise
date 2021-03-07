@@ -4,28 +4,38 @@
     using System.Diagnostics;
     using System.Security.Claims;
     using System.Threading.Tasks;
+    using AutoMapper;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using PhoneBook.Models;
     using PhoneBook.Services;
     using PhoneBook.ViewModels;
 
+    [Authorize]
     public class PhoneStorageController : Controller
     {
         private IPhoneService phoneService;
+        private IMapper mapper;
 
-        public PhoneStorageController(IPhoneService phoneService)
+        public PhoneStorageController(
+            IPhoneService phoneService,
+            IMapper mapper)
         {
             this.phoneService = phoneService;
+            this.mapper = mapper;
         }
 
-        [Authorize]
         public IActionResult Index(int pageSize = 20, int pageLinkCount = 20, int page = 1)
         {
-            PagingListViewModel<BasePhoneViewModel> model;
+            EntityPage<BookEntry> model;
             try
             {
-                model = this.phoneService.GetPage(page, pageSize, pageLinkCount);
+                model = this.phoneService.GetPage(new PageSelectViewModel()
+                {
+                    Number = page,
+                    LinkCount = pageLinkCount,
+                    Size = pageSize,
+                });
             }
             catch (Exception e)
             {
@@ -38,32 +48,39 @@
         public IActionResult Phone(Guid id)
         {
             var userId = this.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            ConcretePhoneViewModel model;
+            var userGuid = Guid.Parse(userId);
+            BookEntry entity;
             try
             {
-                model = this.phoneService.GetConcretePhone(id, Guid.Parse(userId));
+                entity = this.phoneService.GetConcretePhone(id);
             }
             catch (Exception e)
             {
                 return this.RedirectToAction("Error", "PhoneStorage", new { message = e.Message });
             }
 
-            return this.View(model);
+            var viewModel = this.mapper.Map<ConcretePhoneViewModel>(entity);
+            viewModel.IsCreator = userGuid == entity.CreatorId;
+
+            return this.View(viewModel);
         }
 
         [HttpGet]
         public IActionResult Edit(Guid id)
         {
-            var editPhoneModel = this.phoneService.GetEditModel(id);
+            var phoneEntity = this.phoneService.GetEditModel(id);
             var userId = this.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var userGuid = Guid.Parse(userId);
 
-            if (editPhoneModel.CreatorId != userGuid)
+            if (phoneEntity.CreatorId != userGuid)
             {
                 return this.View("AccessDenied");
             }
 
-            return this.View(editPhoneModel);
+            var viewModel = this.mapper.Map<EditPhoneViewModel>(phoneEntity);
+            viewModel.StatusNames = this.phoneService.GetStatusNames();
+
+            return this.View(viewModel);
         }
 
         [HttpPost]
@@ -112,9 +129,12 @@
 
             if (this.ModelState.IsValid)
             {
-                var createdPhone = await this.phoneService.CreatePhoneAsync(createViewModel, userGuid);
+                var createdPhoneEntity = await this.phoneService.CreatePhoneAsync(createViewModel, userGuid);
 
-                return this.View("Phone", createdPhone);
+                var viewModel = this.mapper.Map<CreatePhoneViewModel>(createdPhoneEntity);
+                viewModel.StatusNames = this.phoneService.GetStatusNames();
+
+                return this.View("Phone", viewModel);
             }
 
             return this.View(createViewModel);

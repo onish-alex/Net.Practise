@@ -2,13 +2,13 @@
 {
     using System.Collections.Generic;
 
-    public class PagingListViewModel<T> : List<T>
+    public class EntityPage<T> : List<T>
     {
-        public PagingListViewModel()
+        public EntityPage()
         {
         }
 
-        public PagingListViewModel(
+        public EntityPage(
             IEnumerable<T> phoneViewModels,
             int page,
             int minPage,

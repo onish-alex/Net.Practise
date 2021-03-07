@@ -3,21 +3,22 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using PhoneBook.Models;
     using PhoneBook.ViewModels;
 
     public interface IPhoneService
     {
-        PagingListViewModel<BasePhoneViewModel> GetPage(int page, int pageSize, int pageLinkCount);
+        EntityPage<BookEntry> GetPage(PageSelectViewModel pageSelectViewModel);
 
-        ConcretePhoneViewModel GetConcretePhone(Guid phoneId, Guid userId);
+        BookEntry GetConcretePhone(Guid phoneId);
 
         Task EditPhoneAsync(EditPhoneViewModel phoneViewModel, Guid userId);
 
-        EditPhoneViewModel GetEditModel(Guid phoneId);
+        BookEntry GetEditModel(Guid phoneId);
 
         IEnumerable<string> GetStatusNames();
 
-        Task<ConcretePhoneViewModel> CreatePhoneAsync(CreatePhoneViewModel phoneViewModel, Guid userId);
+        Task<BookEntry> CreatePhoneAsync(CreatePhoneViewModel phoneViewModel, Guid userId);
 
         Task DeletePhoneAsync(Guid phoneId, Guid userId);
     }

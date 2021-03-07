@@ -1,7 +1,6 @@
 ﻿namespace PhoneBook.Services
 {
     using System.Threading.Tasks;
-    using AutoMapper;
     using Microsoft.EntityFrameworkCore;
     using PhoneBook.Data;
     using PhoneBook.Models;

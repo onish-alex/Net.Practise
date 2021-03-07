@@ -1,5 +1,6 @@
 ﻿namespace PhoneBook.Settings.MappingProfiles
 {
+    using System.Collections.Generic;
     using AutoMapper;
     using PhoneBook.Models;
     using PhoneBook.ViewModels;
