@@ -42,9 +42,8 @@
             {
                 var result = await this.userService.LoginAsync(model);
 
-                if (result.CheckResult)
+                if (result)
                 {
-                    await this.Authenticate(model.Login, result.UserId);
                     return this.LocalRedirect(returnUrl ?? "/");
                 }
 
@@ -85,23 +84,6 @@
         {
             await this.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return this.RedirectToAction("Login", "User");
-        }
-
-        private async Task Authenticate(string userName, Guid userId)
-        {
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, userName),
-                new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
-            };
-
-            var identity = new ClaimsIdentity(
-                claims,
-                CookieAuthenticationDefaults.AuthenticationScheme);
-
-            var principal = new ClaimsPrincipal(identity);
-
-            await this.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
         }
     }
 }

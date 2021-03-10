@@ -1,5 +1,6 @@
 ﻿namespace PhoneBook.Services
 {
+    using System;
     using System.Threading.Tasks;
     using PhoneBook.ViewModels;
 
@@ -7,6 +8,8 @@
     {
         Task<bool> RegisterAsync(RegisterViewModel model);
 
-        Task<LoginCheckViewModel> LoginAsync(LoginViewModel model);
+        Task<bool> LoginAsync(LoginViewModel model);
+
+        Guid GetUserId();
     }
 }

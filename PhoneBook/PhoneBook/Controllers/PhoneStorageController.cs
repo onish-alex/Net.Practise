@@ -15,13 +15,16 @@
     public class PhoneStorageController : Controller
     {
         private IPhoneService phoneService;
+        private IUserService userService;
         private IMapper mapper;
 
         public PhoneStorageController(
             IPhoneService phoneService,
+            IUserService userService,
             IMapper mapper)
         {
             this.phoneService = phoneService;
+            this.userService = userService; 
             this.mapper = mapper;
         }
 
@@ -47,8 +50,7 @@
 
         public IActionResult Phone(Guid id)
         {
-            var userId = this.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var userGuid = Guid.Parse(userId);
+            var userId = this.userService.GetUserId();
             BookEntry entity;
             try
             {
@@ -60,7 +62,7 @@
             }
 
             var viewModel = this.mapper.Map<ConcretePhoneViewModel>(entity);
-            viewModel.IsCreator = userGuid == entity.CreatorId;
+            viewModel.IsCreator = userId == entity.CreatorId;
 
             return this.View(viewModel);
         }
@@ -69,10 +71,9 @@
         public IActionResult Edit(Guid id)
         {
             var phoneEntity = this.phoneService.GetEditModel(id);
-            var userId = this.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var userGuid = Guid.Parse(userId);
+            var userId = this.userService.GetUserId();
 
-            if (phoneEntity.CreatorId != userGuid)
+            if (phoneEntity.CreatorId != userId)
             {
                 return this.View("AccessDenied");
             }
@@ -87,10 +88,9 @@
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(EditPhoneViewModel editPhoneViewModel)
         {
-            var userId = this.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var userGuid = Guid.Parse(userId);
+            var userId = this.userService.GetUserId();
 
-            if (editPhoneViewModel.CreatorId != userGuid)
+            if (editPhoneViewModel.CreatorId != userId)
             {
                 return this.View("AccessDenied");
             }
@@ -99,7 +99,7 @@
             {
                 try
                 {
-                    await this.phoneService.EditPhoneAsync(editPhoneViewModel, userGuid);
+                    await this.phoneService.EditPhoneAsync(editPhoneViewModel, userId);
                 }
                 catch
                 {
@@ -124,19 +124,19 @@
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreatePhoneViewModel createViewModel)
         {
-            var userId = this.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var userGuid = Guid.Parse(userId);
+            var userId = this.userService.GetUserId();
 
             if (this.ModelState.IsValid)
             {
-                var createdPhoneEntity = await this.phoneService.CreatePhoneAsync(createViewModel, userGuid);
+                var createdPhoneEntity = await this.phoneService.CreatePhoneAsync(createViewModel, userId);
 
-                var viewModel = this.mapper.Map<CreatePhoneViewModel>(createdPhoneEntity);
-                viewModel.StatusNames = this.phoneService.GetStatusNames();
+                var viewModel = this.mapper.Map<ConcretePhoneViewModel>(createdPhoneEntity);
+                viewModel.IsCreator = true;
 
                 return this.View("Phone", viewModel);
             }
 
+            createViewModel.StatusNames = this.phoneService.GetStatusNames();
             return this.View(createViewModel);
         }
 
@@ -148,12 +148,11 @@
 
         public async Task<IActionResult> DeleteConfirm(Guid id)
         {
-            var userId = this.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var userGuid = Guid.Parse(userId);
+            var userId = this.userService.GetUserId();
 
             try
             {
-                await this.phoneService.DeletePhoneAsync(id, userGuid);
+                await this.phoneService.DeletePhoneAsync(id, userId);
             }
             catch
             {

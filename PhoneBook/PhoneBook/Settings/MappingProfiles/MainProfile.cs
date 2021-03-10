@@ -18,7 +18,7 @@
             this.CreateMap<BookEntry, EditPhoneViewModel>()
                 .IncludeBase<BookEntry, BasePhoneViewModel>();
 
-            this.CreateMap<CreatePhoneViewModel, BookEntry>();
+            this.CreateMap<CreatePhoneViewModel, BookEntry>().ReverseMap();
         }
     }
 }
