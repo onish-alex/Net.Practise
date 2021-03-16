@@ -1,0 +1,482 @@
+{
+	"info": {
+		"_postman_id": "2278e6de-3054-49f1-be81-ee37c6d4df66",
+		"name": "WebAPI Home task",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Post new Customer",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fullName\": \"testName2\",\r\n    \"phoneNumber\": \"testNumber2\",\r\n    \"email\": \"testMail2\"\r\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44301/api/Customer",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44301",
+					"path": [
+						"api",
+						"Customer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get exist Customer",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44301/api/Customer/1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44301",
+					"path": [
+						"api",
+						"Customer",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Customer",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fullName\": \"updatedName\",\r\n    \"phoneNumber\": \"updatedNumber\",\r\n    \"email\": \"updatedEmail\",\r\n    \"id\": 1\r\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44301/api/Customer/1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44301",
+					"path": [
+						"api",
+						"Customer",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post new Item",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"ItemExample2\",\r\n  \"cost\": 150,\r\n  \"nds\": \"NdsExample2\",\r\n  \"description\": \"some description for item 2\",\r\n  \"manufacturer\": \"Main manufacturer\",\r\n  \"refrigerate\": true\r\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44301/api/Item",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44301",
+					"path": [
+						"api",
+						"Item"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get exist Item",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44301/api/Item/1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44301",
+					"path": [
+						"api",
+						"Item",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Item",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"ItemUpdated\",\r\n  \"cost\": 325,\r\n  \"nds\": \"NdsUpdated\",\r\n  \"description\": \"new description for item\",\r\n  \"manufacturer\": \"Main manufacturer\",\r\n  \"refrigerate\": true,\r\n  \"id\" : 1\r\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44301/api/Item/1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44301",
+					"path": [
+						"api",
+						"Item",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post new Delivery",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"address\": \"Sumskaya, 50\",\r\n  \"typeDelivery\": 0\r\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44301/api/Delivery",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44301",
+					"path": [
+						"api",
+						"Delivery"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get exist Delivery",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44301/api/Delivery/1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44301",
+					"path": [
+						"api",
+						"Delivery",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Delivery",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"address\": \"Kievskaya, 26\",\r\n  \"typeDelivery\": 0,\r\n  \"id\": 1\r\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44301/api/Delivery/1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44301",
+					"path": [
+						"api",
+						"Delivery",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post new Contract",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"customerId\": 1,\r\n  \"deliveryId\": 1,\r\n  \"itemId\": [\r\n    1\r\n  ],\r\n  \"date\": \"2021-03-10\"\r\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44301/api/Contract",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44301",
+					"path": [
+						"api",
+						"Contract"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get exist Contract",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44301/api/Contract/1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44301",
+					"path": [
+						"api",
+						"Contract",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post new Customer for Contract Update",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fullName\": \"testName\",\r\n    \"phoneNumber\": \"testNumber\",\r\n    \"email\": \"testMail\"\r\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44301/api/Customer",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44301",
+					"path": [
+						"api",
+						"Customer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post new Delivery for Contract Update",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"address\": \"Kievskaya, 25\",\r\n  \"typeDelivery\": 1\r\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44301/api/Delivery",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44301",
+					"path": [
+						"api",
+						"Delivery"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post new Item for Contract Update",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"ItemExample\",\r\n  \"cost\": 125,\r\n  \"nds\": \"NdsExample\",\r\n  \"description\": \"some description for item\",\r\n  \"manufacturer\": \"Main manufacturer\",\r\n  \"refrigerate\": false\r\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44301/api/Item",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44301",
+					"path": [
+						"api",
+						"Item"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Contract",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"customerId\": 2,\r\n  \"deliveryId\": 2,\r\n  \"itemId\": [\r\n    1, 2\r\n  ],\r\n  \"date\": \"2021-03-15\"\r\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44301/api/Contract/1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44301",
+					"path": [
+						"api",
+						"Contract",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
