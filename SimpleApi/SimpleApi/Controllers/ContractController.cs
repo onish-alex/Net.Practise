@@ -89,10 +89,15 @@ namespace SimpleApi.Controllers
                 if (item == null)
                 {
                     this.ModelState.AddModelError("ContractItemIsNotExist", $"Товара с идентификатором {itemId} не существует");
-                    return this.BadRequest(this.ModelState);
+                    continue;
                 }
 
                 itemsToSet.Add(item);
+            }
+
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState);
             }
 
             var contractEntity = this.mapper.Map<Contract>(contractCreateDto);
@@ -156,11 +161,16 @@ namespace SimpleApi.Controllers
                     if (item == null)
                     {
                         this.ModelState.AddModelError("ContractItemIsNotExist", $"Товара с идентификатором {itemId} не существует");
-                        return this.BadRequest(this.ModelState);
+                        continue;
                     }
 
                     itemsToSet.Add(item);
                 }
+            }
+
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState);
             }
 
             trackedEntity.CustomerId = contractDto.CustomerId;

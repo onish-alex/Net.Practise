@@ -57,9 +57,14 @@ namespace SimpleApi.Controllers
         [ProducesResponseType(400)]
         public async Task<IActionResult> Post(ItemCreateDto itemCreateDto)
         {
-            var itemEntity = this.mapper.Map<Item>(itemCreateDto);
-            await this.itemRepository.CreateAsync(itemEntity);
-            return this.Created($"/api/Customer/{itemEntity.Id}", null);
+            if (this.ModelState.IsValid)
+            {
+                var itemEntity = this.mapper.Map<Item>(itemCreateDto);
+                await this.itemRepository.CreateAsync(itemEntity);
+                return this.Created($"/api/Customer/{itemEntity.Id}", null);
+            }
+
+            return this.BadRequest(this.ModelState);
         }
 
         [HttpPut("{id:int}")]
@@ -67,6 +72,11 @@ namespace SimpleApi.Controllers
         [ProducesResponseType(400)]
         public async Task<IActionResult> Put(int id, ItemDto itemDto)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState);
+            }
+
             if (itemDto.Id != id)
             {
                 this.ModelState.AddModelError("ItemWrongId", "Неверно указанный идентификатор");
