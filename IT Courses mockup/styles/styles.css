@@ -1,0 +1,394 @@
+@font-face {
+    font-family: "Play-Bold";
+    src: url("../fonts/Play-Bold.ttf");
+}
+
+@font-face {
+    font-family: "Arial-AMU";
+    src: url("../fonts/Arial\ AMU.ttf")
+}
+
+body {
+    background-color: #E3F1F2 !important;
+}
+
+.nav-link {
+    padding-left: 1em !important;
+}
+
+.contact-info,
+.courses-info,
+.auth-reg-container,
+.main-info,
+.about-info {
+    margin-top: 4.5em;
+}
+
+.about-info p {
+    font-size: 16pt;
+    color: white;
+    text-align: justify;
+}
+
+.about-info .row div {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.about-info abbr {
+    text-decoration: none !important;
+    color: lightgreen;
+}
+
+.authorization-form {
+    background-color: white;
+}
+
+.course-themes,
+.index-it-card {
+    border: rgb(69, 109, 146) 1px solid !important;
+}
+
+.index-it-card {
+    margin-bottom: 2em;
+    margin-right: 1em;
+    margin-left: 1em;
+}
+
+.index-it-card, .course-card {
+    height: 325px;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.card-image {
+    width: auto !important;
+    max-height: 100% !important;
+}
+
+.course-card {
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    margin-bottom: 1em;
+}
+
+.course-card .card-body {
+    width: 100%;
+    background-color: #e7fafc;
+}
+
+.course-card .card-image {
+    align-items: center;
+    justify-content: center;
+    height: fit-content !important;
+    flex-shrink: 0;
+    width: 100% !important;
+}
+
+.course-card .card-title {
+    font-size: 14pt;
+}
+
+.search-button {
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+}
+
+#search-button {
+    height: 100%;
+}
+
+.main-info .achievements {
+    border-top: 3px solid #83a4a7;
+    border-bottom: 3px solid #83a4a7;
+    background-color: #a4c2c4 !important;
+    width: 100%;
+    overflow-x: visible;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+}
+
+.main-info .achievements p {
+    color: rgb(30, 42, 218);
+    margin-bottom: 1em;
+}
+
+.index-it-card .card-image {
+    width: auto;
+    height: 100%;
+}
+
+.index-it-card .card-title {
+    position: absolute;
+    padding-top: 10px;
+    margin-bottom: 0;
+    top: 85%;
+    height: 15%;
+    width: 100%;
+    white-space: nowrap;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+} 
+
+.course-name {
+    text-decoration: none;
+    font-weight: bold;
+    color: black;
+}
+
+.course-name:hover {
+    color: rgb(204, 148, 44);
+}
+
+.course-name:active {
+    color: rgb(206, 206, 50);
+}
+
+.course-card .course-params {
+    text-align: left;
+    padding-left: 0;
+}
+
+.course-params li {
+    list-style-type: none;
+}
+
+.course-card .course-params li::before {
+    content: "- ";
+}
+
+.contact-icons div {
+    padding-left: 0;
+}
+
+.contact-icons img {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 5px;
+}
+
+.contact-phones, .contact-email {
+    margin-bottom: 2em;
+}
+
+.contact-email {
+    border-top: 2px solid orange;
+    border-bottom: 2px solid orange;
+    width: fit-content;
+    padding-top: 2em;
+    padding-bottom: 2em;
+    align-self: center;
+}
+
+iframe {
+    border: 1px solid black !important;
+    width: 300px;
+}
+
+.main-info p,
+.main-info ul,
+.main-info span,
+.card-title,
+.about-info p {
+    font-family: "Arial-AMU", sans-serif;       
+}
+
+.main-info p, 
+.main-info ul, 
+.main-info span {
+    font-size: 16pt;
+}
+
+.main-info a {
+    text-decoration: none;
+}
+
+h1, 
+h2, 
+nav, 
+.brand-name {
+    font-family: "Play-Bold", serif;
+}
+
+p strong, 
+.slogan, 
+.main-info a {
+    font-weight: bold;
+}
+
+.slogan {
+    text-align: center !important;
+    font-size: 20pt !important;
+    color: palegoldenrod !important;
+}
+
+.courses-field {
+    justify-content: space-around;
+}
+
+@media (min-width: 576px) {
+    .course-card .card-image {
+        height: 60% !important;
+        max-width: 100%;
+    }
+
+    .course-card .card-body {
+        height: 40% !important;
+    }
+}
+
+@media (min-width: 768px) {
+    .course-card {
+        flex-grow: 0.5 !important;
+    }
+
+    iframe {
+        border: 1px solid black !important;
+        width: 450px;
+    }
+}
+
+@media (min-width: 992px) { 
+    .contact-email {
+        border-top: none;
+        border-bottom: none;
+        padding-left: 2em;
+        padding-right: 2em;
+        margin-bottom: 0;
+    }
+
+    .contact-phones {
+        border-right: 2px solid orange;
+        margin-bottom: 0;
+    }
+
+    .contact-networks {
+        border-left: 2px solid orange;
+    }
+
+    .contact-networks > div, .contact-phones > div {
+        height: 100%;
+        align-content: center;
+    }
+
+    .course-card {
+        flex-grow: 2 !important;
+    }
+
+    .about-info .row div {
+        margin-right: 50px;
+    }
+
+    .contact-icons div {
+        padding-left: 12px;
+    }
+
+    .main-info .achievements p {
+        margin-bottom: 0;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .main-info .achievements p {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+@media (min-width: 1800px) {
+    h1 {
+        font-size: 48pt !important;
+    }
+    
+    p, span, .navbar-brand, .contact-phones {
+        font-size: 28pt !important;
+    }
+
+    .contact-icons img {
+        width: 85px !important;
+        height: 85px !important;
+    }
+
+    .index-it-card .card-title {
+        top: 80%;
+        height: 20%;
+    } 
+
+    .main-info, .about-info {
+        margin: 5.5em;
+    }
+
+    .contact-info, .auth-reg-container, .courses-info {
+        margin: 6em;
+    }
+
+    .contact-info > p, h2 {
+        font-size: 32pt !important;
+    }
+
+    iframe {
+        width: 800px;
+        height: 600px;
+    }
+
+    .nav-link, .navbar-brand {
+        padding-left: 0.75em !important;
+        
+    }
+
+    .nav-link {
+        padding-right: 0.75em !important;
+    }
+
+    .slogan {
+        font-size: 36pt !important;
+    }
+
+    nav a,
+    .courses-info label,
+    .courses-info select,
+    .authorization-form input, 
+    .authorization-form button {
+        font-size: 22pt !important;
+    }
+
+    .courses-info option {
+        font-size: 10pt;
+    }
+
+    .course-card {
+        width: 24% !important;
+        flex-grow: 0 !important;
+        height: 500px;
+    }
+
+    .course-card a {
+        font-size: 24pt !important;
+    }
+
+    .course-card .card-text {
+        font-size: 18pt !important;
+    }
+
+    .courses-field {
+        justify-content: left;
+    }
+
+    .courses-info input[type="checkbox"] {
+        height: 25px;
+        width: 25px;
+        margin-right: 10px;
+    }
+
+    .course-card .card-image,
+    .course-card .card-body {
+        height: 50% !important;
+    }
+   
+    #search-input {
+        font-size: 28pt;
+    }
+}

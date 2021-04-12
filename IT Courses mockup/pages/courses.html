@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Наши курсы</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+    <link rel="stylesheet" href="../styles/bootstrap.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md justify-content-between navbar-dark bg-dark fixed-top">
+        <a href="../index.html" class="navbar-brand ms-3 my-auto">CodeLearn</a>
+        
+        <button class="navbar-toggler me-2" type="button" data-toggle="collapse" data-target="#navbarcontent" aria-controls="navbarcontent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarcontent">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="courses.html" class="nav-link">Список курсов</a>
+                </li>
+                <li class="nav-item">
+                    <a href="about.html" class="nav-link">О нас</a>
+                </li>  
+                <li class="nav-item">
+                    <a href="contact.html" class="nav-link">Контакты</a>
+                </li> 
+            </ul>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a href="reg.html" class="nav-link">Регистрация</a>
+                </li>
+                <li class="nav-item me-2">
+                    <a href="auth.html" class="nav-link">Вход</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid courses-info">
+        
+        <div class="row mb-3">
+            <h2>Наши курсы</h2>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-3 col-sm-4 col-12 me-0 pe-2 pb-2">
+                <select class="w-100 mb-3" id="course-order-by">
+                    <option value="alphabet">По алфавиту</option>
+                    <option value="rating">По популярности</option>
+                </select>    
+                
+                <select class="w-100" id="course-order-type">
+                    <option value="alphabet">По возрастанию</option>
+                    <option value="rating">По убыванию</option>
+                </select>
+            </div>
+        
+            <input class="col-lg-3 col-sm-4 col-9 mb-5 ms-auto" type="text" placeholder="Поиск" id="search-input">
+            
+            <div class="col-lg-1 col-sm-2 col-2 mb-5 me-3 search-button">
+                <button class="w-100 btn btn-primary" id="search-button">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xl-3 col-lg-4 col-md-5 mb-4">
+                <div class="list-group course-themes">
+                    <div class="list-group-item">
+                        <input type="checkbox" id="languages-input">
+                        <label for="languages-input">Языки программирования</label>
+                        <div class="list-group list-group-flush">
+                            <div class="list-group-item">
+                                <input type="checkbox" id="cs-input">
+                                <label for="cs-input">C#</label>
+                            </div>
+                            <div class="list-group-item">
+                                <input type="checkbox" id="js-input">
+                                <label for="js-input">JavaScript</label>
+                            </div>
+                            <div class="list-group-item">
+                                <input type="checkbox" id="java-input">
+                                <label for="java-input">Java</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group-item">
+                        <input type="checkbox" id="db-input">
+                        <label for="db-input">Базы данных</label>
+                        <div class="list-group list-group-flush">
+                            <div class="list-group-item">
+                                <input type="checkbox" id="mysql-input">
+                                <label for="mysql-input">MySQL</label>
+                            </div>
+                            <div class="list-group-item">
+                                <input type="checkbox" id="tsql-input">
+                                <label for="tsql-input">Transact-SQL</label>
+                            </div>
+                            <div class="list-group-item">
+                                <input type="checkbox" id="mongo-input">
+                                <label for="mongo-input">MongoDB</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group-item">
+                        <input type="checkbox" id="cvs-input">
+                        <label for="csv-input">Системы контроля версий</label>
+                        <div class="list-group list-group-flush">
+                            <div class="list-group-item">
+                                <input type="checkbox" id="git-input">
+                                <label for="git-input">Git</label>
+                            </div>
+                            <div class="list-group-item">
+                                <input type="checkbox" id="mercurial-input">
+                                <label for="mercurial-input">Mercurial</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-9 col-lg-8 col-md-7">
+                <div class="row courses-field">  
+                    
+                    <div class="card col-xl-3 col-lg-4 col-md-6 col-8 course-card">
+                        <img src="../images/csharp.jpg" class="card-img-top card-image">
+                        <div class="card-body">
+                            <a href="courses/dotnet.html" class="card-title course-name">Основы .NET</a>
+                            <div class="card-text">
+                                <ul class="course-params">
+                                    <li>35 видеолекций</li>
+                                    <li>10 практических заданий</li>
+                                    <li>34 часа</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card col-xl-3 col-lg-4 col-md-6 col-8 course-card">
+                        <img src="../images/js.jpg" class="card-img-top card-image">
+                        <div class="card-body">
+                            <a href="courses/js.html" class="card-title course-name text-center">Полный курс по JavaScript</a>
+                            <div class="card-text">
+                                <ul class="course-params">
+                                    <li>28 видеолекций</li>
+                                    <li>12 практических заданий</li>
+                                    <li>30 часов</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card col-xl-3 col-lg-4 col-md-6 col-8 course-card">
+                        <img src="../images/java.jpg" class="card-img-top card-image">
+                        <div class="card-body">
+                            <a href="courses/java.html" class="card-title course-name text-center">Java Advanced</a>
+                            <div class="card-text">
+                                <ul class="course-params">
+                                    <li>50 видеолекций</li>
+                                    <li>12 практических заданий</li>
+                                    <li>48 часов</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>  
+                    
+                    <div class="card col-xl-3 col-lg-4 col-md-6 col-8 course-card">
+                        <img src="../images/Mysql.png" class="card-img-top card-image">
+                        <div class="card-body">
+                            <a href="courses/mysql.html" class="card-title course-name">Введение в MySQL</a>
+                            <div class="card-text">
+                                <ul class="course-params">
+                                    <li>27 видеолекций</li>
+                                    <li>7 практических заданий</li>
+                                    <li>21 час</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card col-xl-3 col-lg-4 col-md-6 col-8 course-card">
+                        <img src="../images/Mongo-db-logo.png" class="card-img-top card-image">
+                        <div class="card-body">
+                            <a href="courses/mongo.html" class="card-title course-name text-center">Основы MongoDB</a>
+                            <div class="card-text">
+                                <ul class="course-params">
+                                    <li>25 видеолекций</li>
+                                    <li>11 практических заданий</li>
+                                    <li>27 часов</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card col-xl-3 col-lg-4 col-md-6 col-8 course-card">
+                        <img src="../images/tsql.png" alt="csharp image" class="card-img-top card-image">
+                        <div class="card-body">
+                            <a href="courses/tsql.html" class="card-title course-name text-center">Microsoft SQL Server и Transact-SQL</a>
+                            <div class="card-text">
+                                <ul class="course-params">
+                                    <li>48 видеолекций</li>
+                                    <li>17 практических заданий</li>
+                                    <li>30 часов</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
