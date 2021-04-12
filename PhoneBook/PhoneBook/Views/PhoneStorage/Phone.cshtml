@@ -1,0 +1,20 @@
+﻿@using PhoneBook.ViewModels;
+@model ConcretePhoneViewModel
+
+@{
+    ViewData["Title"] = Model.PhoneNumber;
+}
+
+<div class="container">
+    <p>Номер: @Model.PhoneNumber</p>
+    <p>Адрес: @Model.Address</p>
+    <p>Дата добавления: @Model.CreationDate</p>
+    <p>Дата изменения: @Model.LastUpdateDate</p>
+    <p>Статус: @Model.StatusName</p>
+
+    @if (Model.IsCreator)
+    {
+        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Редактировать</a>
+        <a class="btn btn-primary" asp-action="Delete" asp-route-id="@Model.Id">Удалить</a>
+    }
+</div>

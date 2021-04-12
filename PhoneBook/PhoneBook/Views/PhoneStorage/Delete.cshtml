@@ -1,0 +1,8 @@
+﻿@{
+    ViewData["Title"] = "Подтвердить удаление";
+}
+@model Guid
+
+<p>Вы уверены, что хотите удалить эту запись?</p>
+<a class="btn btn-primary" asp-action="DeleteConfirm" asp-route-id="@Model">Да</a>
+<a class="btn btn-primary" asp-action="Phone" asp-route-id="@Model">Нет</a>

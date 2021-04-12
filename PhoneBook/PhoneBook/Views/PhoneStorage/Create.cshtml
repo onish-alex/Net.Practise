@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "Внести новый номер";
+}
+@using PhoneBook.ViewModels;
+@model CreatePhoneViewModel
+
+<form class="container" asp-action="Create">
+
+    <div class="row text-center justify-content-center" asp-validation-summary="All"></div>
+
+    <div class="row">
+        <div class="col-3">
+
+            <label asp-for="PhoneNumber">Номер:</label>
+        </div>
+            <input asp-for="PhoneNumber" type="tel" />
+        </div>
+
+    <div class="row">
+        <div class="col-3">
+            <label asp-for="Address">Адрес</label>
+        </div>    
+        <input asp-for="Address" />
+    </div>
+
+    <div class="row">
+        <div class="col-3">
+            <label asp-for="StatusName">Статус</label>
+        </div>
+        <select asp-for="StatusName" asp-items="@new SelectList(Model.StatusNames)" value="@Model.StatusName"></select>
+    </div>
+
+    <div class="row">
+        <input class="btn btn-primary" type="submit" value="Создать" />
+    </div>
+</form>
