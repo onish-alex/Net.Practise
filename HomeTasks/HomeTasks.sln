@@ -3,6 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30225.117
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Linq2", "Linq2\Linq2.csproj", "{ED09F572-C41B-4DCA-9AF1-CE8DCBBDCC4A}"
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlgorithmsAndLoops", "AlgorithmsAndLoops\AlgorithmsAndLoops.csproj", "{AE927C7D-985D-455B-BE02-3E720340A12F}"
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "File.Manager", "File.Manager\File.Manager.csproj", "{A36EF177-8649-49CC-A5D6-03B6DD944C50}"
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DI.App", "DI.App\DI.App.csproj", "{A13BBB6C-A9C8-4E33-9DF3-42FD04F6A2FE}"
@@ -13,6 +14,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ED09F572-C41B-4DCA-9AF1-CE8DCBBDCC4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED09F572-C41B-4DCA-9AF1-CE8DCBBDCC4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED09F572-C41B-4DCA-9AF1-CE8DCBBDCC4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED09F572-C41B-4DCA-9AF1-CE8DCBBDCC4A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AE927C7D-985D-455B-BE02-3E720340A12F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AE927C7D-985D-455B-BE02-3E720340A12F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE927C7D-985D-455B-BE02-3E720340A12F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -30,6 +35,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {1ECB49AE-C740-42D4-989C-62A2509C84E4}
+		SolutionGuid = {D2079918-1038-4227-81C2-104A14386A12}
 	EndGlobalSection
 EndGlobal
