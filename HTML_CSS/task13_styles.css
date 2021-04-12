@@ -1,0 +1,42 @@
+.navigation {
+    display: flex;
+    background-color: rgb(75, 75, 75);
+    padding-right: 10px;
+    height: 2em;
+    margin-left: -8px;
+    margin-top: -8px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.navigation button {
+    outline: none;
+    background: none;
+    border: none;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: white;
+    font-weight: bold;
+}
+
+.navigation button:hover {
+    background-color:   rgb(100, 100, 100);
+}
+
+.navigation button:active {
+    background-color:   rgb(125, 125, 125);
+}
+
+h1 {
+    text-align: center;
+}
+
+strong {
+    color: blue;
+}
+
+p {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    text-align: justify;
+}

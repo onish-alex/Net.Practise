@@ -1,0 +1,12 @@
+body {
+    background-image: url("flowers.jpg");
+    background-repeat: repeat-y;
+    background-position-x: right;
+    background-position-y: top;
+}
+
+p { 
+    width: 30%;
+    font-weight: bold;
+    text-align: justify;
+}
